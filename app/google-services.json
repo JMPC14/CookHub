@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "875275359096",
+    "firebase_url": "https://cookhub-ab63f.firebaseio.com",
+    "project_id": "cookhub-ab63f",
+    "storage_bucket": "cookhub-ab63f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:875275359096:android:1228fa3bc64a5b9256ae8d",
+        "android_client_info": {
+          "package_name": "com.tm470.cookhub"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "875275359096-9v07jvl9bn7bctpetvdt42lkb2sd834r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCDqlMn-OPdY8POPlNfkgwCNRaAZmF0wMU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "875275359096-9v07jvl9bn7bctpetvdt42lkb2sd834r.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
