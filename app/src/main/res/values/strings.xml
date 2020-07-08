@@ -4,4 +4,11 @@
     <string name="register">Register</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="username">Username</string>
+    <string name="email_address">Email Address</string>
+    <string name="confirm_email_address">Confirm Email Address</string>
+    <string name="password">Password</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="submit">Submit</string>
+    <string name="cookhub">CookHub</string>
 </resources>

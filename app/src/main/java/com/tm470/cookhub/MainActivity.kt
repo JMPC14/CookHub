@@ -59,16 +59,18 @@ class MainActivity : AppCompatActivity() {
             intent.flags = (Intent.FLAG_ACTIVITY_CLEAR_TASK).or(Intent.FLAG_ACTIVITY_NEW_TASK)
             startActivity(intent)
         } else {
-            val ref = FirebaseDatabase.getInstance().getReference("/users/$uid")
-            ref.addListenerForSingleValueEvent(object : ValueEventListener {
-                override fun onCancelled(p0: DatabaseError) {
-                }
+            FirebaseDatabase.getInstance().getReference("/online-users/$uid").setValue(true)
+            if (CurrentUser.user == null) {
+                val ref = FirebaseDatabase.getInstance().getReference("/users/$uid")
+                ref.addListenerForSingleValueEvent(object : ValueEventListener {
+                    override fun onCancelled(p0: DatabaseError) {
+                    }
 
-                override fun onDataChange(p0: DataSnapshot) {
-                    CurrentUser.user = p0.getValue(User::class.java)
-                    FirebaseDatabase.getInstance().getReference("/online-users/${CurrentUser.user?.uid}").setValue(true)
-                }
-            })
+                    override fun onDataChange(p0: DataSnapshot) {
+                        CurrentUser.user = p0.getValue(User::class.java)
+                    }
+                })
+            }
         }
     }
 

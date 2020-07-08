@@ -4,17 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#2196F3"
-    tools:context=".launcher.RegisterFragment" >
+    android:background="@drawable/rounded_background_fragment"
+    tools:context=".launcher.RegisterFragment">
 
     <EditText
         android:id="@+id/editTextUsername"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="200dp"
+        android:layout_marginTop="175dp"
         android:background="@drawable/rounded_text_register_login"
         android:ems="10"
-        android:hint="Username"
+        android:hint="@string/username"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -27,7 +27,7 @@
         android:layout_marginTop="32dp"
         android:background="@drawable/rounded_text_register_login"
         android:ems="10"
-        android:hint="Email Address"
+        android:hint="@string/email_address"
         android:inputType="textEmailAddress"
         app:layout_constraintEnd_toEndOf="@+id/editTextUsername"
         app:layout_constraintStart_toStartOf="@+id/editTextUsername"
@@ -40,7 +40,7 @@
         android:layout_marginTop="8dp"
         android:background="@drawable/rounded_text_register_login"
         android:ems="10"
-        android:hint="Confirm Email Address"
+        android:hint="@string/confirm_email_address"
         android:inputType="textEmailAddress"
         app:layout_constraintEnd_toEndOf="@+id/editTextEmail"
         app:layout_constraintStart_toStartOf="@+id/editTextEmail"
@@ -53,22 +53,33 @@
         android:layout_marginTop="32dp"
         android:background="@drawable/rounded_text_register_login"
         android:ems="10"
-        android:hint="Password"
+        android:hint="@string/password"
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="@+id/editTextEmailConfirm"
         app:layout_constraintStart_toStartOf="@+id/editTextEmailConfirm"
         app:layout_constraintTop_toBottomOf="@+id/editTextEmailConfirm" />
 
     <EditText
-        android:id="@+id/editTextPasswprdConfirm"
+        android:id="@+id/editTextPasswordConfirm"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:background="@drawable/rounded_text_register_login"
         android:ems="10"
-        android:hint="Confirm Password"
+        android:hint="@string/confirm_password"
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="@+id/editTextPassword"
         app:layout_constraintStart_toStartOf="@+id/editTextPassword"
         app:layout_constraintTop_toBottomOf="@+id/editTextPassword" />
+
+    <Button
+        android:id="@+id/buttonSubmitRegister"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/submit"
+        android:textAllCaps="false"
+        app:layout_constraintEnd_toEndOf="@+id/editTextPasswordConfirm"
+        app:layout_constraintStart_toStartOf="@+id/editTextPasswordConfirm"
+        app:layout_constraintTop_toBottomOf="@+id/editTextPasswordConfirm" />
 </androidx.constraintlayout.widget.ConstraintLayout>
