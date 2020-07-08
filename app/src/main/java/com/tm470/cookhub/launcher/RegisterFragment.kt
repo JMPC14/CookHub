@@ -37,11 +37,11 @@ class RegisterFragment : Fragment() {
     }
 
     private fun validateFields(): Boolean {
-        val username = editTextUsername.text.toString()
-        val email = editTextEmail.text.toString()
-        val emailConfirm = editTextEmailConfirm.text.toString()
-        val password = editTextPassword.text.toString()
-        val passwordConfirm = editTextPasswordConfirm.text.toString()
+        val username = editTextUsernameRegister.text.toString()
+        val email = editTextEmailRegister.text.toString()
+        val emailConfirm = editTextEmailConfirmRegister.text.toString()
+        val password = editTextPasswordRegister.text.toString()
+        val passwordConfirm = editTextPasswordConfirmRegister.text.toString()
 
         val userList: MutableList<User> = mutableListOf()
         val usersRef = FirebaseDatabase.getInstance().getReference("/users")
@@ -89,8 +89,8 @@ class RegisterFragment : Fragment() {
     private fun registerUser() {
         if (validateFields()) {
             FirebaseAuth.getInstance().createUserWithEmailAndPassword(
-                editTextEmail.text.toString(),
-                editTextPassword.text.toString()
+                editTextEmailRegister.text.toString(),
+                editTextPasswordRegister.text.toString()
             )
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
@@ -111,8 +111,8 @@ class RegisterFragment : Fragment() {
                 val contactRef = FirebaseDatabase.getInstance().getReference("/users/$uid/contacts")
                 val user = User(
                     uid,
-                    editTextUsername.text.toString(),
-                    editTextEmail.text.toString()
+                    editTextUsernameRegister.text.toString(),
+                    editTextEmailRegister.text.toString()
                 )
                 CurrentUser.user = user
                 ref.setValue(user)

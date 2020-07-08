@@ -20,7 +20,7 @@ class LauncherActivity : AppCompatActivity() {
 
         supportActionBar?.hide()
 
-        buttonLogin.setOnClickListener {
+        buttonSubmitLogin.setOnClickListener {
             showFragment(this, loginFragment)
         }
 

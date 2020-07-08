@@ -8,7 +8,7 @@
     tools:context=".launcher.RegisterFragment">
 
     <EditText
-        android:id="@+id/editTextUsername"
+        android:id="@+id/editTextUsernameRegister"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="175dp"
@@ -21,7 +21,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/editTextEmail"
+        android:id="@+id/editTextEmailRegister"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
@@ -29,12 +29,12 @@
         android:ems="10"
         android:hint="@string/email_address"
         android:inputType="textEmailAddress"
-        app:layout_constraintEnd_toEndOf="@+id/editTextUsername"
-        app:layout_constraintStart_toStartOf="@+id/editTextUsername"
-        app:layout_constraintTop_toBottomOf="@+id/editTextUsername" />
+        app:layout_constraintEnd_toEndOf="@+id/editTextUsernameRegister"
+        app:layout_constraintStart_toStartOf="@+id/editTextUsernameRegister"
+        app:layout_constraintTop_toBottomOf="@+id/editTextUsernameRegister" />
 
     <EditText
-        android:id="@+id/editTextEmailConfirm"
+        android:id="@+id/editTextEmailConfirmRegister"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -42,12 +42,12 @@
         android:ems="10"
         android:hint="@string/confirm_email_address"
         android:inputType="textEmailAddress"
-        app:layout_constraintEnd_toEndOf="@+id/editTextEmail"
-        app:layout_constraintStart_toStartOf="@+id/editTextEmail"
-        app:layout_constraintTop_toBottomOf="@+id/editTextEmail" />
+        app:layout_constraintEnd_toEndOf="@+id/editTextEmailRegister"
+        app:layout_constraintStart_toStartOf="@+id/editTextEmailRegister"
+        app:layout_constraintTop_toBottomOf="@+id/editTextEmailRegister" />
 
     <EditText
-        android:id="@+id/editTextPassword"
+        android:id="@+id/editTextPasswordRegister"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
@@ -55,12 +55,12 @@
         android:ems="10"
         android:hint="@string/password"
         android:inputType="textPassword"
-        app:layout_constraintEnd_toEndOf="@+id/editTextEmailConfirm"
-        app:layout_constraintStart_toStartOf="@+id/editTextEmailConfirm"
-        app:layout_constraintTop_toBottomOf="@+id/editTextEmailConfirm" />
+        app:layout_constraintEnd_toEndOf="@+id/editTextEmailConfirmRegister"
+        app:layout_constraintStart_toStartOf="@+id/editTextEmailConfirmRegister"
+        app:layout_constraintTop_toBottomOf="@+id/editTextEmailConfirmRegister" />
 
     <EditText
-        android:id="@+id/editTextPasswordConfirm"
+        android:id="@+id/editTextPasswordConfirmRegister"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -68,9 +68,9 @@
         android:ems="10"
         android:hint="@string/confirm_password"
         android:inputType="textPassword"
-        app:layout_constraintEnd_toEndOf="@+id/editTextPassword"
-        app:layout_constraintStart_toStartOf="@+id/editTextPassword"
-        app:layout_constraintTop_toBottomOf="@+id/editTextPassword" />
+        app:layout_constraintEnd_toEndOf="@+id/editTextPasswordRegister"
+        app:layout_constraintStart_toStartOf="@+id/editTextPasswordRegister"
+        app:layout_constraintTop_toBottomOf="@+id/editTextPasswordRegister" />
 
     <Button
         android:id="@+id/buttonSubmitRegister"
@@ -79,7 +79,7 @@
         android:layout_marginTop="16dp"
         android:text="@string/submit"
         android:textAllCaps="false"
-        app:layout_constraintEnd_toEndOf="@+id/editTextPasswordConfirm"
-        app:layout_constraintStart_toStartOf="@+id/editTextPasswordConfirm"
-        app:layout_constraintTop_toBottomOf="@+id/editTextPasswordConfirm" />
+        app:layout_constraintEnd_toEndOf="@+id/editTextPasswordConfirmRegister"
+        app:layout_constraintStart_toStartOf="@+id/editTextPasswordConfirmRegister"
+        app:layout_constraintTop_toBottomOf="@+id/editTextPasswordConfirmRegister" />
 </androidx.constraintlayout.widget.ConstraintLayout>

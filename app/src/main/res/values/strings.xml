@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">CookHub</string>
-    <string name="login">Login</string>
     <string name="register">Register</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -11,4 +10,5 @@
     <string name="confirm_password">Confirm Password</string>
     <string name="submit">Submit</string>
     <string name="cookhub">CookHub</string>
+    <string name="login">Login</string>
 </resources>
