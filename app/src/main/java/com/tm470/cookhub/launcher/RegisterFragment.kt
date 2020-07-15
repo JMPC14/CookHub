@@ -87,15 +87,31 @@ class RegisterFragment : Fragment() {
     }
 
     private fun registerUser() {
+        val username = editTextUsernameRegister.text.toString()
+        val email = editTextEmailRegister.text.toString()
+        val password = editTextPasswordRegister.text.toString()
         if (validateFields()) {
             FirebaseAuth.getInstance().createUserWithEmailAndPassword(
-                editTextEmailRegister.text.toString(),
-                editTextPasswordRegister.text.toString()
+                email,
+                password
             )
-                .addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        Log.d("Main", "User created with ID: ${task.result?.user?.uid}")
-                    }
+                .addOnSuccessListener {
+                    Log.d("Main", "User created with ID: ${it.user!!.uid}")
+                    val uid = FirebaseAuth.getInstance().uid
+                    val ref = FirebaseDatabase.getInstance().getReference("/users/$uid")
+                    val user = User(
+                        uid,
+                        username,
+                        email
+                    )
+                    CurrentUser.user = user
+                    ref.setValue(user)
+                        .addOnSuccessListener {
+                            val intent = Intent(this.context, MainActivity::class.java)
+                            intent.flags =
+                                Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
+                            startActivity(intent)
+                        }
                 }
                 .addOnFailureListener {
                     Toast.makeText(
@@ -105,25 +121,26 @@ class RegisterFragment : Fragment() {
                     ).show()
                 }
 
-            val uid = FirebaseAuth.getInstance().uid
-            if (uid != null) {
-                val ref = FirebaseDatabase.getInstance().getReference("/users/$uid")
-                val contactRef = FirebaseDatabase.getInstance().getReference("/users/$uid/contacts")
-                val user = User(
-                    uid,
-                    editTextUsernameRegister.text.toString(),
-                    editTextEmailRegister.text.toString()
-                )
-                CurrentUser.user = user
-                ref.setValue(user)
-                contactRef.setValue(listOf<String>())
-                    .addOnSuccessListener {
-                        val intent = Intent(this.context, MainActivity::class.java)
-                        intent.flags =
-                            Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
-                        startActivity(intent)
-                    }
-            }
+//            val uid = FirebaseAuth.getInstance().uid
+//            if (uid == null) {
+//                Log.d("TAG", "null uid")
+//            }
+//            if (uid != null) {
+//                val ref = FirebaseDatabase.getInstance().getReference("/users/$uid")
+//                val user = User(
+//                    uid,
+//                    username,
+//                    email
+//                )
+//                CurrentUser.user = user
+//                ref.setValue(user)
+//                    .addOnSuccessListener {
+//                        val intent = Intent(this.context, MainActivity::class.java)
+//                        intent.flags =
+//                            Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
+//                        startActivity(intent)
+//                    }
+//            }
         }
     }
 }
