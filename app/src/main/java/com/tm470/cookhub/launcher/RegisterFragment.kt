@@ -120,27 +120,6 @@ class RegisterFragment : Fragment() {
                         Toast.LENGTH_LONG
                     ).show()
                 }
-
-//            val uid = FirebaseAuth.getInstance().uid
-//            if (uid == null) {
-//                Log.d("TAG", "null uid")
-//            }
-//            if (uid != null) {
-//                val ref = FirebaseDatabase.getInstance().getReference("/users/$uid")
-//                val user = User(
-//                    uid,
-//                    username,
-//                    email
-//                )
-//                CurrentUser.user = user
-//                ref.setValue(user)
-//                    .addOnSuccessListener {
-//                        val intent = Intent(this.context, MainActivity::class.java)
-//                        intent.flags =
-//                            Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
-//                        startActivity(intent)
-//                    }
-//            }
         }
     }
 }
