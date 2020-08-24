@@ -9,7 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
-import com.tm470.cookhub.MainActivity
+import com.tm470.cookhub.RecentMessagesActivity
 import com.tm470.cookhub.R
 import kotlinx.android.synthetic.main.fragment_login.*
 
@@ -37,7 +37,7 @@ class LoginFragment : Fragment() {
             FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener {
                     if (it.isSuccessful) {
-                        val intent = Intent(this.context, MainActivity::class.java)
+                        val intent = Intent(this.context, RecentMessagesActivity::class.java)
                         intent.flags = (Intent.FLAG_ACTIVITY_CLEAR_TASK).or(Intent.FLAG_ACTIVITY_NEW_TASK)
                         startActivity(intent)
                     }

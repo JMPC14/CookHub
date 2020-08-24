@@ -16,9 +16,9 @@ import com.tm470.cookhub.launcher.LauncherActivity
 import com.tm470.cookhub.models.User
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
-import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_recent_messages.*
 
-class MainActivity : AppCompatActivity() {
+class RecentMessagesActivity : AppCompatActivity() {
 
 
     private val adapter = GroupAdapter<GroupieViewHolder>()
@@ -26,14 +26,20 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_recent_messages)
 
         val layoutManager = LinearLayoutManager(this)
         layoutManager.stackFromEnd = true
-        recyclerViewRecipesList.layoutManager = layoutManager
-        recyclerViewRecipesList.adapter = adapter
+        recyclerViewRecentMessages.layoutManager = layoutManager
+        recyclerViewRecentMessages.adapter = adapter
+
+        hideFragment(this, newConversationFragment)
 
         fetchUser()
+
+        fabNewConversation.setOnClickListener {
+            showFragment(this, newConversationFragment)
+        }
     }
 
     private fun fetchUser() {
@@ -53,12 +59,35 @@ class MainActivity : AppCompatActivity() {
                     override fun onDataChange(snapshot: DataSnapshot) {
                         CurrentUser.user = snapshot.getValue(User::class.java)
                         fetchRecipesFile()
+                        fetchContacts()
                     }
                 })
             } else {
                 fetchRecipesFile()
             }
         }
+    }
+
+    fun fetchContacts() {
+        val friendsRef = FirebaseDatabase.getInstance().getReference("/users/${CurrentUser.user!!.uid}/friends")
+        friendsRef.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onCancelled(error: DatabaseError) {
+            }
+
+            override fun onDataChange(snapshot: DataSnapshot) {
+                FirebaseDatabase.getInstance().getReference("users/${FirebaseAuth.getInstance().uid}/friends").addListenerForSingleValueEvent(object : ValueEventListener {
+                    override fun onCancelled(error: DatabaseError) {
+                    }
+
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        CurrentUser.friends = mutableListOf()
+                        snapshot.children.forEach {
+                            CurrentUser.friends?.add(it.value.toString())
+                        }
+                    }
+                })
+            }
+        })
     }
 
     private fun fetchRecipesFile() {

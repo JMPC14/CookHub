@@ -15,7 +15,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.tm470.cookhub.CurrentUser
-import com.tm470.cookhub.MainActivity
+import com.tm470.cookhub.RecentMessagesActivity
 import com.tm470.cookhub.R
 import com.tm470.cookhub.models.User
 import kotlinx.android.synthetic.main.fragment_register.*
@@ -99,6 +99,7 @@ class RegisterFragment : Fragment() {
                     Log.d("Main", "User created with ID: ${it.user!!.uid}")
                     val uid = FirebaseAuth.getInstance().uid
                     val ref = FirebaseDatabase.getInstance().getReference("/users/$uid")
+                    val friendsRef = FirebaseDatabase.getInstance().getReference("/users/$uid/friends")
                     val user = User(
                         uid,
                         username,
@@ -107,7 +108,8 @@ class RegisterFragment : Fragment() {
                     CurrentUser.user = user
                     ref.setValue(user)
                         .addOnSuccessListener {
-                            val intent = Intent(this.context, MainActivity::class.java)
+                            friendsRef.setValue(listOf<String>())
+                            val intent = Intent(this.context, RecentMessagesActivity::class.java)
                             intent.flags =
                                 Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
                             startActivity(intent)

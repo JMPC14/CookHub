@@ -24,7 +24,7 @@
         android:id="@+id/editTextPasswordLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         android:background="@drawable/rounded_text_register_login"
         android:ems="10"
         android:hint="@string/password"
@@ -35,11 +35,13 @@
 
     <Button
         android:id="@+id/buttonSubmitLogin"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/rounded_button_login_register"
         android:text="@string/login"
         android:textAllCaps="false"
+        android:textColor="@color/defaultBlue"
         app:layout_constraintEnd_toEndOf="@+id/editTextPasswordLogin"
         app:layout_constraintStart_toStartOf="@+id/editTextPasswordLogin"
         app:layout_constraintTop_toBottomOf="@+id/editTextPasswordLogin" />
