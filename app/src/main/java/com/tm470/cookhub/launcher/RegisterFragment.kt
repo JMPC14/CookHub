@@ -15,7 +15,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.tm470.cookhub.CurrentUser
-import com.tm470.cookhub.RecentMessagesActivity
+import com.tm470.cookhub.LandingActivity
 import com.tm470.cookhub.R
 import com.tm470.cookhub.models.User
 import kotlinx.android.synthetic.main.fragment_register.*
@@ -109,7 +109,7 @@ class RegisterFragment : Fragment() {
                     ref.setValue(user)
                         .addOnSuccessListener {
                             friendsRef.setValue(listOf<String>())
-                            val intent = Intent(this.context, RecentMessagesActivity::class.java)
+                            val intent = Intent(this.context, LandingActivity::class.java)
                             intent.flags =
                                 Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
                             startActivity(intent)

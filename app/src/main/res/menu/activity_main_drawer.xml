@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_profile"
+            android:icon="@drawable/ic_baseline_account_circle_24"
+            android:title="Profile" />
+        <item
+            android:id="@+id/nav_latest_messages"
+            android:icon="@drawable/ic_baseline_message_24"
+            android:title="Latest Messages" />
+        <item
+            android:id="@+id/nav_contacts"
+            android:icon="@drawable/ic_baseline_contacts_24"
+            android:title="Contacts" />
+    </group>
+
+    <item android:title="Pantry">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/nav_recipes"
+                    android:icon="@drawable/ic_baseline_cake_24"
+                    android:title="Recipes" />
+                <item
+                    android:id="@+id/nav_ingredients"
+                    android:icon="@drawable/ic_baseline_format_list_bulleted_24"
+                    android:title="Ingredients" />
+            </group>
+        </menu>
+    </item>
+</menu>
