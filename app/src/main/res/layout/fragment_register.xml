@@ -7,18 +7,39 @@
     android:background="@drawable/rounded_background_fragment"
     tools:context=".launcher.RegisterFragment">
 
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/imageViewRegister"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginTop="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/selectPhotoRegister"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/rounded_photo_button"
+        android:text="@string/select_photo"
+        android:textColor="#FFFFFF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <EditText
         android:id="@+id/editTextUsernameRegister"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="200dp"
+        android:layout_marginTop="32dp"
         android:background="@drawable/rounded_text_register_login"
         android:ems="10"
         android:hint="@string/username"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/imageViewRegister" />
 
     <EditText
         android:id="@+id/editTextEmailRegister"
@@ -84,4 +105,5 @@
         app:layout_constraintEnd_toEndOf="@+id/editTextPasswordConfirmRegister"
         app:layout_constraintStart_toStartOf="@+id/editTextPasswordConfirmRegister"
         app:layout_constraintTop_toBottomOf="@+id/editTextPasswordConfirmRegister" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

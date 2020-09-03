@@ -2,6 +2,9 @@ package com.tm470.cookhub.launcher
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.graphics.ImageDecoder
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -9,19 +12,27 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.storage.FirebaseStorage
 import com.tm470.cookhub.CurrentUser
 import com.tm470.cookhub.LandingActivity
 import com.tm470.cookhub.R
-import com.tm470.cookhub.models.User
+import com.tm470.cookhub.models.CookhubUser
+import kotlinx.android.synthetic.main.fragment_friends.*
 import kotlinx.android.synthetic.main.fragment_register.*
+import java.util.*
 
+@RequiresApi(Build.VERSION_CODES.P)
 @SuppressLint("RestrictedApi")
 class RegisterFragment : Fragment() {
+
+    private var selectedPhotoUri: Uri? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,7 +43,17 @@ class RegisterFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         buttonSubmitRegister.setOnClickListener {
-            registerUser()
+            if (selectedPhotoUri != null) {
+                uploadImageToFirebase()
+            } else {
+                registerUser()
+            }
+        }
+
+        selectPhotoRegister.setOnClickListener {
+            val intent = Intent(Intent.ACTION_PICK)
+            intent.type = "image/*"
+            startActivityForResult(intent, 0)
         }
     }
 
@@ -43,7 +64,7 @@ class RegisterFragment : Fragment() {
         val password = editTextPasswordRegister.text.toString()
         val passwordConfirm = editTextPasswordConfirmRegister.text.toString()
 
-        val userList: MutableList<User> = mutableListOf()
+        val userList: MutableList<CookhubUser> = mutableListOf()
         val usersRef = FirebaseDatabase.getInstance().getReference("/users")
         usersRef.addListenerForSingleValueEvent(object: ValueEventListener {
             override fun onCancelled(error: DatabaseError) {
@@ -51,7 +72,7 @@ class RegisterFragment : Fragment() {
 
             override fun onDataChange(snapshot: DataSnapshot) {
                 snapshot.children.forEach {
-                    val user: User? = it.getValue(User::class.java)
+                    val user: CookhubUser? = it.getValue(CookhubUser::class.java)
                     userList.add(user!!)
                 }
             }
@@ -86,7 +107,7 @@ class RegisterFragment : Fragment() {
         return true
     }
 
-    private fun registerUser() {
+    private fun registerUser(profileImageUrl: String? = "https://i.imgur.com/RR5LUO1.jpg") {
         val username = editTextUsernameRegister.text.toString()
         val email = editTextEmailRegister.text.toString()
         val password = editTextPasswordRegister.text.toString()
@@ -100,10 +121,11 @@ class RegisterFragment : Fragment() {
                     val uid = FirebaseAuth.getInstance().uid
                     val ref = FirebaseDatabase.getInstance().getReference("/users/$uid")
                     val friendsRef = FirebaseDatabase.getInstance().getReference("/users/$uid/friends")
-                    val user = User(
+                    val user = CookhubUser(
                         uid,
                         username,
-                        email
+                        email,
+                        profileImageUrl
                     )
                     CurrentUser.user = user
                     ref.setValue(user)
@@ -123,5 +145,38 @@ class RegisterFragment : Fragment() {
                     ).show()
                 }
         }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == 0 && resultCode == AppCompatActivity.RESULT_OK && data != null) {
+            selectedPhotoUri = data.data
+            val bitmap = ImageDecoder.decodeBitmap(ImageDecoder.createSource(requireContext().contentResolver, selectedPhotoUri!!))
+            imageViewRegister.setImageBitmap(bitmap)
+            selectPhotoRegister.alpha = 0f
+        }
+    }
+
+    private fun uploadImageToFirebase() {
+        if (selectedPhotoUri == null) {
+            return
+        }
+
+        val filename = UUID.randomUUID().toString()
+        val ref = FirebaseStorage.getInstance().getReference("/images/$filename")
+        ref.putFile(selectedPhotoUri!!)
+            .addOnSuccessListener {
+                Log.d("Main", "Successfully uploaded image: ${it.metadata?.path}")
+
+                ref.downloadUrl.addOnSuccessListener {
+                    Log.d("Main", "File Location: $it")
+
+                    registerUser(it.toString())
+                }
+            }
+            .addOnFailureListener {
+                Log.d("Main", "Image upload failed")
+            }
     }
 }

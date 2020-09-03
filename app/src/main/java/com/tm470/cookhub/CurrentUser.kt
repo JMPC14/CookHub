@@ -1,8 +1,8 @@
 package com.tm470.cookhub
 
-import com.tm470.cookhub.models.User
+import com.tm470.cookhub.models.CookhubUser
 
 object CurrentUser {
-    var user: User? = null
+    var user: CookhubUser? = null
     var friends: MutableList<String>? = null
 }

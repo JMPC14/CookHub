@@ -7,28 +7,28 @@
         <item
             android:id="@+id/nav_profile"
             android:icon="@drawable/ic_baseline_account_circle_24"
-            android:title="Profile" />
+            android:title="@string/profile" />
         <item
             android:id="@+id/nav_latest_messages"
             android:icon="@drawable/ic_baseline_message_24"
-            android:title="Latest Messages" />
+            android:title="@string/latest_messages" />
         <item
-            android:id="@+id/nav_contacts"
+            android:id="@+id/nav_friends"
             android:icon="@drawable/ic_baseline_contacts_24"
-            android:title="Contacts" />
+            android:title="@string/friends" />
     </group>
 
-    <item android:title="Pantry">
+    <item android:title="@string/pantry">
         <menu>
             <group android:checkableBehavior="single">
                 <item
                     android:id="@+id/nav_recipes"
                     android:icon="@drawable/ic_baseline_cake_24"
-                    android:title="Recipes" />
+                    android:title="@string/recipes" />
                 <item
                     android:id="@+id/nav_ingredients"
                     android:icon="@drawable/ic_baseline_format_list_bulleted_24"
-                    android:title="Ingredients" />
+                    android:title="@string/ingredients" />
             </group>
         </menu>
     </item>

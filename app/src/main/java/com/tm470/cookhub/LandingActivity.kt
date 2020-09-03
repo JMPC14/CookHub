@@ -5,8 +5,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.navigation.NavigationView
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -23,11 +23,13 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.tm470.cookhub.launcher.LauncherActivity
-import com.tm470.cookhub.models.User
+import com.tm470.cookhub.models.CookhubUser
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import kotlinx.android.synthetic.main.activity_landing.*
+import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.content_main.*
+import kotlinx.android.synthetic.main.nav_header_main.*
 
 class LandingActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -44,8 +46,6 @@ class LandingActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         val navView: NavigationView = findViewById(R.id.nav_view)
         val navController = findNavController(R.id.nav_host_fragment)
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.nav_latest_messages, R.id.nav_recipes, R.id.nav_profile
@@ -55,14 +55,20 @@ class LandingActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
         navView.setupWithNavController(navController)
         navView.setNavigationItemSelectedListener(this)
 
-        val fab: FloatingActionButton = findViewById(R.id.fab)
-
         val layoutManager = LinearLayoutManager(this)
         layoutManager.stackFromEnd = true
         recyclerViewLanding.layoutManager = layoutManager
         recyclerViewLanding.adapter = adapter
 
         fetchUser()
+
+        buttonNewConversation.setOnClickListener {
+            supportFragmentManager.beginTransaction().replace(
+                R.id.nav_host_fragment,
+                NewConversationFragment(),
+                "NewConversationFragment"
+            ).addToBackStack("NewConversationFragment").commit()
+        }
     }
 
     private fun fetchUser() {
@@ -80,7 +86,8 @@ class LandingActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
                     }
 
                     override fun onDataChange(snapshot: DataSnapshot) {
-                        CurrentUser.user = snapshot.getValue(User::class.java)
+                        CurrentUser.user = snapshot.getValue(CookhubUser::class.java)
+                        textViewNavHeaderMain.text = CurrentUser.user!!.username
                         fetchRecipesFile()
                         fetchFriends()
                     }
@@ -129,6 +136,11 @@ class LandingActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
         }
     }
 
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.landing, menu)
+        return true
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.optionsSignOut -> {
@@ -147,12 +159,6 @@ class LandingActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
         return super.onOptionsItemSelected(item)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.landing, menu)
-        return true
-    }
-
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.nav_host_fragment)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
@@ -161,7 +167,9 @@ class LandingActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.nav_profile -> {
-                supportFragmentManager.beginTransaction().replace(R.id.nav_host_fragment, ProfileFragment()).commit()
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.nav_host_fragment, ProfileFragment(), "ProfileFragment")
+                    .addToBackStack("ProfileFragment").commit()
             }
 
             R.id.nav_latest_messages -> {
@@ -170,19 +178,59 @@ class LandingActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
                 }
             }
 
-            R.id.nav_contacts -> {
-                supportFragmentManager.beginTransaction().replace(R.id.nav_host_fragment, ContactsFragment()).commit()
+            R.id.nav_friends -> {
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.nav_host_fragment, FriendsFragment(), "FriendsFragment")
+                    .addToBackStack("FriendsFragment").commit()
             }
 
             R.id.nav_recipes -> {
-                supportFragmentManager.beginTransaction().replace(R.id.nav_host_fragment, RecipesFragment()).commit()
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.nav_host_fragment, RecipesFragment(), "RecipesFragment")
+                    .addToBackStack("RecipesFragment").commit()
             }
 
             R.id.nav_ingredients -> {
-                supportFragmentManager.beginTransaction().replace(R.id.nav_host_fragment, IngredientsFragment()).commit()
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.nav_host_fragment, IngredientsFragment(), "IngredientsFragment")
+                    .addToBackStack("IngredientsFragment").commit()
             }
         }
         drawer_layout.closeDrawers()
         return true
+    }
+
+    override fun onBackPressed() {
+        if (supportFragmentManager.fragments.size > 1) {
+            supportFragmentManager.popBackStack()
+            supportFragmentManager.beginTransaction()
+                .remove(supportFragmentManager.fragments[1])
+                .commit()
+            if (supportFragmentManager.backStackEntryCount > 1) {
+                val fragment =
+                    supportFragmentManager.getBackStackEntryAt(supportFragmentManager.backStackEntryCount - 2)
+                when (fragment.name) {
+                    "ProfileFragment" -> {
+                        nav_view.setCheckedItem(R.id.nav_profile)
+                    }
+
+                    "FriendsFragment" -> {
+                        nav_view.setCheckedItem(R.id.nav_friends)
+                    }
+
+                    "RecipesFragment" -> {
+                        nav_view.setCheckedItem(R.id.nav_recipes)
+                    }
+
+                    "IngredientsFragment" -> {
+                        nav_view.setCheckedItem(R.id.nav_ingredients)
+                    }
+                }
+            } else {
+                nav_view.setCheckedItem(R.id.nav_latest_messages)
+            }
+        } else {
+            super.onBackPressed()
+        }
     }
 }
