@@ -1,12 +1,13 @@
 package com.tm470.cookhub
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
-import com.google.android.material.floatingactionbutton.FloatingActionButton
+import androidx.annotation.RequiresApi
 import com.google.android.material.navigation.NavigationView
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -16,26 +17,34 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
+import com.squareup.picasso.Picasso
 import com.tm470.cookhub.launcher.LauncherActivity
 import com.tm470.cookhub.models.CookhubUser
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
+import com.xwray.groupie.Item
 import kotlinx.android.synthetic.main.activity_landing.*
-import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.content_main.*
+import kotlinx.android.synthetic.main.latest_message_row.view.*
 import kotlinx.android.synthetic.main.nav_header_main.*
 
+@RequiresApi(Build.VERSION_CODES.O)
 class LandingActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
 
     private val adapter = GroupAdapter<GroupieViewHolder>()
+
+    override fun onResume() {
+        super.onResume()
+        if (CurrentUser.user != null) {
+            listenForLatestMessages()
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,9 +65,14 @@ class LandingActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
         navView.setNavigationItemSelectedListener(this)
 
         val layoutManager = LinearLayoutManager(this)
-        layoutManager.stackFromEnd = true
         recyclerViewLanding.layoutManager = layoutManager
         recyclerViewLanding.adapter = adapter
+        recyclerViewLanding.addItemDecoration(
+            DividerItemDecoration(
+                this,
+                DividerItemDecoration.VERTICAL
+            )
+        )
 
         fetchUser()
 
@@ -69,6 +83,94 @@ class LandingActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
                 "NewConversationFragment"
             ).addToBackStack("NewConversationFragment").commit()
         }
+    }
+
+    private val latestMessageMap = HashMap<String, ChatMessage>()
+
+    private fun refreshRecyclerViewMessages() {
+        adapter.clear()
+        val sortedMap = latestMessageMap.toList().sortedByDescending { it.second.time }.toMap()
+        sortedMap.values.forEach { adapter.add(LatestMessageRow(it)) }
+    }
+
+    private fun listenForLatestMessages() {
+        val uid = CurrentUser.user!!.uid
+        val ref = FirebaseDatabase.getInstance().getReference("/latest-messages/$uid")
+
+        fun addMessage(snapshot: DataSnapshot) {
+            val chatMessage = snapshot.getValue(ChatMessage::class.java) ?: return
+
+            latestMessageMap[snapshot.key!!] = chatMessage
+            refreshRecyclerViewMessages()
+        }
+
+        ref.addChildEventListener(object : ChildEventListener {
+            override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
+                addMessage(snapshot)
+            }
+
+            override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
+                addMessage(snapshot)
+            }
+
+            override fun onChildRemoved(snapshot: DataSnapshot) {
+            }
+
+            override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+            }
+        })
+    }
+
+    @SuppressLint("SetTextI18n")
+    inner class LatestMessageRow(private val chatMessage: ChatMessage) : Item<GroupieViewHolder>() {
+        override fun bind(viewHolder: GroupieViewHolder, position: Int) {
+            val chatOtherUserId: String?
+            if (chatMessage.fromId == CurrentUser.user!!.uid) {
+                chatOtherUserId  = chatMessage.toId
+                viewHolder.itemView.textLatestMessageRow.text = ("You: ${chatMessage.text}")
+            } else {
+                chatOtherUserId = chatMessage.fromId
+                viewHolder.itemView.textLatestMessageRow.text = ("Them: ${chatMessage.text}")
+            }
+
+            val ref = FirebaseDatabase.getInstance().getReference("/users/$chatOtherUserId")
+            ref.addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val chatOtherUser = snapshot.getValue(CookhubUser::class.java)
+                    viewHolder.itemView.usernameLatestMessageRow.text = chatOtherUser!!.username
+                    Picasso.get().load(chatOtherUser.profileImageUrl)
+                        .into(viewHolder.itemView.userImageLatestMessageRow)
+
+                    viewHolder.itemView.setOnClickListener {
+                        val cidRef = FirebaseDatabase.getInstance()
+                            .getReference("/user-messages/${CurrentUser.user!!.uid}/$chatOtherUserId")
+                        cidRef.addListenerForSingleValueEvent(object : ValueEventListener {
+                            override fun onDataChange(snapshot: DataSnapshot) {
+                                CurrentUser.cid = snapshot.child("cid").value.toString()
+                                CurrentUser.currentChatUser = chatOtherUser
+                                supportFragmentManager.beginTransaction()
+                                    .replace(R.id.nav_host_fragment, ChatFragment(), "ChatFragment")
+                                    .addToBackStack("ChatFragment").commit()
+                            }
+
+                            override fun onCancelled(error: DatabaseError) {
+                            }
+                        })
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                }
+            })
+        }
+
+        override fun getLayout(): Int {
+            return R.layout.latest_message_row
+        }
+
     }
 
     private fun fetchUser() {
@@ -90,6 +192,7 @@ class LandingActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
                         textViewNavHeaderMain.text = CurrentUser.user!!.username
                         fetchRecipesFile()
                         fetchFriends()
+                        listenForLatestMessages()
                     }
                 })
             } else {
@@ -176,6 +279,7 @@ class LandingActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
                 supportFragmentManager.fragments.forEach {
                     supportFragmentManager.beginTransaction().remove(it).commit()
                 }
+                listenForLatestMessages()
             }
 
             R.id.nav_friends -> {
@@ -228,6 +332,7 @@ class LandingActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
                 }
             } else {
                 nav_view.setCheckedItem(R.id.nav_latest_messages)
+                listenForLatestMessages()
             }
         } else {
             super.onBackPressed()

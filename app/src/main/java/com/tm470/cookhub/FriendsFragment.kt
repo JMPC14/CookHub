@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.PointerIcon
 import android.view.View
 import android.view.ViewGroup
+import android.widget.PopupMenu
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -44,7 +45,7 @@ class FriendsFragment : Fragment() {
         }
     }
 
-    private fun displayFriends() {
+    fun displayFriends() {
         val adapter = GroupAdapter<GroupieViewHolder>()
         val list: MutableList<CookhubUser>? = mutableListOf()
         CurrentUser.friends!!.forEach { it ->
@@ -72,7 +73,7 @@ class FriendsFragment : Fragment() {
         )
     }
 
-    class FriendItem(private val friend: CookhubUser): Item<GroupieViewHolder>() {
+    inner class FriendItem(private val friend: CookhubUser): Item<GroupieViewHolder>() {
         override fun bind(viewHolder: GroupieViewHolder, position: Int) {
             viewHolder.itemView.textViewFriendRow.text = friend.username
             if (friend.profileImageUrl!!.isNotEmpty()) {
@@ -80,8 +81,23 @@ class FriendsFragment : Fragment() {
                     .into(viewHolder.itemView.imageViewFriendRow)
             }
 
-            viewHolder.itemView.setOnClickListener {
-                println("test")
+            viewHolder.itemView.setOnLongClickListener {
+                val pop = PopupMenu(it.context, it)
+                pop.inflate(R.menu.friend_list_menu)
+                pop.setOnMenuItemClickListener {
+                    when (it.itemId) {
+                        R.id.remove_friend -> {
+                            CurrentUser.friends?.remove(friend.uid)
+                            FirebaseDatabase.getInstance()
+                                .getReference("/users/${CurrentUser.user?.uid}/friends")
+                                .setValue(CurrentUser.friends)
+                            displayFriends()
+                        }
+                    }
+                    true
+                }
+                pop.show()
+                true
             }
         }
 

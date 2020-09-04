@@ -40,47 +40,45 @@ class NewFriendFragment : Fragment() {
 
     private fun displayUsers() {
         val adapter = GroupAdapter<GroupieViewHolder>()
-        CurrentUser.friends!!.forEach { it ->
-            FirebaseDatabase.getInstance().getReference("/users")
-                .addListenerForSingleValueEvent(object : ValueEventListener {
-                    override fun onDataChange(snapshot: DataSnapshot) {
-                        adapter.clear()
-                        snapshot.children.forEach {
-                            val user = it.getValue(CookhubUser::class.java)
-                            if (!CurrentUser.friends!!.contains(user!!.uid) && FirebaseAuth.getInstance().uid != user.uid) {
-                                adapter.add(NewFriendItem(user))
+        FirebaseDatabase.getInstance().getReference("/users")
+            .addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    adapter.clear()
+                    snapshot.children.forEach {
+                        val user = it.getValue(CookhubUser::class.java)
+                        if (!CurrentUser.friends!!.contains(user!!.uid) && FirebaseAuth.getInstance().uid != user.uid) {
+                            adapter.add(NewFriendItem(user))
+                        }
+                    }
+
+                    adapter.setOnItemClickListener { item, view ->
+                        val newFriendItem = item as NewFriendItem
+                        val friendRef = FirebaseDatabase.getInstance()
+                            .getReference("/users/${CurrentUser.user!!.uid}/friends")
+                        friendRef.addListenerForSingleValueEvent(object : ValueEventListener {
+                            override fun onDataChange(snapshot: DataSnapshot) {
+                                CurrentUser.friends!!.add(newFriendItem.friend.uid!!)
+                                friendRef.setValue(CurrentUser.friends)
+                                    .addOnSuccessListener {
+                                        requireActivity().supportFragmentManager.beginTransaction()
+                                            .remove(
+                                                requireActivity().supportFragmentManager.findFragmentByTag(
+                                                    "NewFriendFragment"
+                                                )!!
+                                            )
+                                        requireActivity().supportFragmentManager.popBackStack()
+                                    }
                             }
-                        }
 
-                        adapter.setOnItemClickListener { item, view ->
-                            val newFriendItem = item as NewFriendItem
-                            val friendRef = FirebaseDatabase.getInstance()
-                                .getReference("/users/${CurrentUser.user!!.uid}/friends")
-                            friendRef.addListenerForSingleValueEvent(object : ValueEventListener {
-                                override fun onDataChange(snapshot: DataSnapshot) {
-                                    CurrentUser.friends!!.add(newFriendItem.friend.uid!!)
-                                    friendRef.setValue(CurrentUser.friends)
-                                        .addOnSuccessListener {
-                                            requireActivity().supportFragmentManager.beginTransaction()
-                                                .remove(
-                                                    requireActivity().supportFragmentManager.findFragmentByTag(
-                                                        "NewFriendFragment"
-                                                    )!!
-                                                )
-                                            requireActivity().supportFragmentManager.popBackStack()
-                                        }
-                                }
-
-                                override fun onCancelled(error: DatabaseError) {
-                                }
-                            })
-                        }
+                            override fun onCancelled(error: DatabaseError) {
+                            }
+                        })
                     }
+                }
 
-                    override fun onCancelled(error: DatabaseError) {
-                    }
-                })
-        }
+                override fun onCancelled(error: DatabaseError) {
+                }
+            })
         recyclerViewNewFriend.adapter = adapter
         recyclerViewNewFriend.layoutManager = LinearLayoutManager(context)
     }
