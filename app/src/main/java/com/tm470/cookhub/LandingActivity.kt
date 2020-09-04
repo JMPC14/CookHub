@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.ActionBar
 import com.google.android.material.navigation.NavigationView
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -28,6 +29,7 @@ import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Item
 import kotlinx.android.synthetic.main.activity_landing.*
+import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.content_main.*
 import kotlinx.android.synthetic.main.latest_message_row.view.*
 import kotlinx.android.synthetic.main.nav_header_main.*
@@ -279,6 +281,7 @@ class LandingActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
                 supportFragmentManager.fragments.forEach {
                     supportFragmentManager.beginTransaction().remove(it).commit()
                 }
+                toolbar.title = "Latest Messages"
                 listenForLatestMessages()
             }
 
@@ -286,18 +289,21 @@ class LandingActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
                 supportFragmentManager.beginTransaction()
                     .replace(R.id.nav_host_fragment, FriendsFragment(), "FriendsFragment")
                     .addToBackStack("FriendsFragment").commit()
+                toolbar.title = "Friends"
             }
 
             R.id.nav_recipes -> {
                 supportFragmentManager.beginTransaction()
                     .replace(R.id.nav_host_fragment, RecipesFragment(), "RecipesFragment")
                     .addToBackStack("RecipesFragment").commit()
+                toolbar.title = "Recipes"
             }
 
             R.id.nav_ingredients -> {
                 supportFragmentManager.beginTransaction()
                     .replace(R.id.nav_host_fragment, IngredientsFragment(), "IngredientsFragment")
                     .addToBackStack("IngredientsFragment").commit()
+                toolbar.title = "Pantry"
             }
         }
         drawer_layout.closeDrawers()
@@ -320,19 +326,23 @@ class LandingActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
 
                     "FriendsFragment" -> {
                         nav_view.setCheckedItem(R.id.nav_friends)
+                        toolbar.title = "Friends"
                     }
 
                     "RecipesFragment" -> {
                         nav_view.setCheckedItem(R.id.nav_recipes)
+                        toolbar.title = "Recipes"
                     }
 
                     "IngredientsFragment" -> {
                         nav_view.setCheckedItem(R.id.nav_ingredients)
+                        toolbar.title = "Pantry"
                     }
                 }
             } else {
                 nav_view.setCheckedItem(R.id.nav_latest_messages)
                 listenForLatestMessages()
+                toolbar.title = "Latest Messages"
             }
         } else {
             super.onBackPressed()

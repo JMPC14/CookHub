@@ -20,6 +20,7 @@ import com.tm470.cookhub.models.CookhubUser
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Item
+import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.chat_message_from.view.*
 import kotlinx.android.synthetic.main.chat_message_to.view.*
 import kotlinx.android.synthetic.main.fragment_chat.*
@@ -50,6 +51,8 @@ class ChatFragment : Fragment() {
         }
 
         listenForMessages()
+
+        requireActivity().toolbar.title = "Chat"
     }
 
     private fun sendMessage() {
@@ -100,7 +103,7 @@ class ChatFragment : Fragment() {
     }
 
     private fun listenForMessages() {
-        var newRef: DatabaseReference = FirebaseDatabase.getInstance().getReference("/conversations/${CurrentUser.cid}")
+        val newRef: DatabaseReference = FirebaseDatabase.getInstance().getReference("/conversations/${CurrentUser.cid}")
         newRef.addChildEventListener(object : ChildEventListener {
             override fun onChildAdded(
                 snapshot: DataSnapshot,

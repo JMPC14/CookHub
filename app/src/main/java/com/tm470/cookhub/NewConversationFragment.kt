@@ -20,6 +20,7 @@ import com.tm470.cookhub.models.CookhubUser
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Item
+import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.fragment_friends.*
 import kotlinx.android.synthetic.main.fragment_new_conversation.*
 import kotlinx.android.synthetic.main.friend_row.*
@@ -44,6 +45,8 @@ class NewConversationFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        requireActivity().toolbar.title = "New Conversation"
 
         displayFriends()
     }
