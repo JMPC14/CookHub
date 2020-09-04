@@ -25,6 +25,7 @@ import com.google.firebase.database.*
 import com.squareup.picasso.Picasso
 import com.tm470.cookhub.launcher.LauncherActivity
 import com.tm470.cookhub.models.CookhubUser
+import com.tm470.cookhub.models.Recipe
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Item
@@ -169,10 +170,7 @@ class LandingActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
             })
         }
 
-        override fun getLayout(): Int {
-            return R.layout.latest_message_row
-        }
-
+        override fun getLayout() = R.layout.latest_message_row
     }
 
     private fun fetchUser() {
@@ -192,13 +190,11 @@ class LandingActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
                     override fun onDataChange(snapshot: DataSnapshot) {
                         CurrentUser.user = snapshot.getValue(CookhubUser::class.java)
                         textViewNavHeaderMain.text = CurrentUser.user!!.username
-                        fetchRecipesFile()
+                        fetchRecipes()
                         fetchFriends()
                         listenForLatestMessages()
                     }
                 })
-            } else {
-                fetchRecipesFile()
             }
         }
     }
@@ -226,19 +222,26 @@ class LandingActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
         })
     }
 
-    private fun fetchRecipesFile() {
-        val file = baseContext.getFileStreamPath("${CurrentUser.user!!.uid}-recipes.txt")
-        if (file.exists()) {
-            /** Parse JSON with Klaxon **/
-//            Klaxon().parse<RecipeContainer>(file)
-        } else {
-            try {
-                val fileOutputStream = baseContext.openFileOutput(
-                    "${CurrentUser.user!!.uid}-recipes.txt", Context.MODE_PRIVATE)
-            } catch (e: java.lang.Exception) {
-                e.printStackTrace()
+    private fun fetchRecipes() {
+        val ref = FirebaseDatabase.getInstance().getReference("/users/${CurrentUser.user!!.uid}/recipes")
+        ref.addChildEventListener(object : ChildEventListener {
+            override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
+                val recipe = snapshot.getValue(Recipe::class.java)!!
+                CurrentUser.recipes.add(recipe)
             }
-        }
+
+            override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
+            }
+
+            override fun onChildRemoved(snapshot: DataSnapshot) {
+            }
+
+            override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+            }
+        })
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

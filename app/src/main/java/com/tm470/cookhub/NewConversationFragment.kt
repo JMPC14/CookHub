@@ -126,8 +126,6 @@ class NewConversationFragment : Fragment() {
             }
         }
 
-        override fun getLayout(): Int {
-            return R.layout.friend_row
-        }
+        override fun getLayout() = R.layout.friend_row
     }
 }

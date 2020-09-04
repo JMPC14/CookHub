@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.tm470.cookhub.models.Ingredient
 import com.xwray.groupie.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.fragment_new_recipe.*
@@ -15,6 +16,7 @@ import kotlinx.android.synthetic.main.fragment_recipes.*
 import kotlinx.android.synthetic.main.recipe_row.view.*
 import kotlinx.android.synthetic.main.recipe_row_child.view.*
 
+@RequiresApi(Build.VERSION_CODES.O)
 class RecipesFragment : Fragment() {
 
     val adapter = GroupAdapter<GroupieViewHolder>()
@@ -27,11 +29,12 @@ class RecipesFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_recipes, container, false)
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         requireActivity().toolbar.title = "Recipes"
+
+        adapter.clear()
 
         fabRecipes.setOnClickListener {
             requireActivity().supportFragmentManager.beginTransaction()
@@ -39,35 +42,22 @@ class RecipesFragment : Fragment() {
                 .addToBackStack("NewRecipeFragment").commit()
         }
 
-        val childList = listOf(
-            ChildItem("First Album"),
-            ChildItem("Second Album"),
-            ChildItem("Third Album"),
-            ChildItem("Fourth Album")
-
-        )
-
-        val parentList = listOf(
-            ExpandableHeaderItem("Travis Scott"),
-            ExpandableHeaderItem("Migos"),
-            ExpandableHeaderItem("Post Malone"),
-            ExpandableHeaderItem("Drake")
-
-        )
-
-        adapter.apply {
-            for (i in parentList){
-                this.add(ExpandableGroup(i).apply {
-                    for (j  in childList) {
-                        add(j)
-                    }
-                })
-
-            }
-        }
-
         recyclerViewRecipes.layoutManager = LinearLayoutManager(context)
         recyclerViewRecipes.adapter = adapter
+
+        displayRecipes()
+    }
+
+    private fun displayRecipes() {
+        CurrentUser.recipes.forEach {
+            adapter.apply {
+                this.add(ExpandableGroup(ExpandableHeaderItem(it.name!!)).apply {
+                    it.ingredients!!.forEach {
+                        add(ChildItem(it))
+                    }
+                })
+            }
+        }
     }
 
     class ExpandableHeaderItem(val title: String): com.xwray.groupie.kotlinandroidextensions.Item(), ExpandableItem {
@@ -78,27 +68,25 @@ class RecipesFragment : Fragment() {
             viewHolder: com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder,
             position: Int
         ) {
-
             viewHolder.root.recipeTitle.text = title
-            viewHolder.itemView.setOnClickListener {
+            viewHolder.itemView.indicator.setOnClickListener {
                 expandableGroup.onToggleExpanded()
                 changeStuff(viewHolder)
             }
 
+            viewHolder.itemView.setOnClickListener {
+
+            }
         }
 
-        override fun getLayout(): Int {
-            return  R.layout.recipe_row
-        }
+        override fun getLayout() = R.layout.recipe_row
 
         private fun changeStuff(viewHolder: GroupieViewHolder) {
-
             viewHolder.root.indicator.apply {
                 setImageResource(
                     if (expandableGroup.isExpanded) R.drawable.ic_baseline_arrow_drop_down_24
                     else R.drawable.ic_baseline_arrow_right_24)
             }
-
         }
 
         override fun setExpandableGroup(onToggleListener: ExpandableGroup) {
@@ -106,15 +94,14 @@ class RecipesFragment : Fragment() {
         }
     }
 
-    open class ChildItem(private val title: String) : Item<GroupieViewHolder>() {
+    open class ChildItem(private val ingredient: Ingredient) : Item<GroupieViewHolder>() {
 
         override fun bind(viewHolder: GroupieViewHolder, position: Int) {
-            viewHolder.root.ingredientTitle.text = title
-
-        }
-        override fun getLayout(): Int {
-            return R.layout.recipe_row_child
+            viewHolder.root.ingredientTitle.text = ingredient.name
+            viewHolder.root.ingredientQuantity.text = ingredient.quantity!!.amount.toString()
+            viewHolder.root.ingredientQuantityType.text = ingredient.quantity!!.type
         }
 
+        override fun getLayout() = R.layout.recipe_row_child
     }
 }

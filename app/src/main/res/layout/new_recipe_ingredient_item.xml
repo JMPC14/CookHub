@@ -7,7 +7,7 @@
 
     <Spinner
         android:id="@+id/spinnerIngredientQuantity"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="end"
         app:layout_constraintBottom_toBottomOf="@+id/editTextNewIngredientQuantity"
@@ -23,9 +23,11 @@
         android:backgroundTint="#33000000"
         android:gravity="end"
         android:hint="Quantity"
-        android:inputType="numberDecimal"
+        android:inputType="textMultiLine|number"
         android:textAlignment="textEnd"
         android:textSize="14sp"
+        android:maxWidth="120dp"
+        android:digits="0123456789"
         app:layout_constraintBottom_toBottomOf="@+id/editTextNewIngredientName"
         app:layout_constraintEnd_toStartOf="@+id/spinnerIngredientQuantity"
         app:layout_constraintTop_toTopOf="@+id/editTextNewIngredientName" />
@@ -33,7 +35,7 @@
     <EditText
         android:id="@+id/editTextNewIngredientName"
         style="@style/Widget.AppCompat.EditText"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
         android:layout_marginTop="4dp"
@@ -42,9 +44,10 @@
         android:backgroundTint="#33000000"
         android:gravity="start"
         android:hint="Ingredient"
-        android:inputType="textPersonName"
+        android:inputType="textPersonName|textMultiLine"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/editTextNewIngredientQuantity"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

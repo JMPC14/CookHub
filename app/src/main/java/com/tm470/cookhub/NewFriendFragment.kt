@@ -92,9 +92,6 @@ class NewFriendFragment : Fragment() {
             Picasso.get().load(friend.profileImageUrl).into(viewHolder.itemView.imageViewFriendRow)
         }
 
-        override fun getLayout(): Int {
-            return R.layout.friend_row
-        }
-
+        override fun getLayout() = R.layout.friend_row
     }
 }

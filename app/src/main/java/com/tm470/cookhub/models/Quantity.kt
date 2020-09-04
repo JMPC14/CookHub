@@ -1,4 +1,6 @@
 package com.tm470.cookhub.models
 
-class Quantity(var amount: String, var type: String) {
+class Quantity(var amount: Int, var type: String) {
+
+    constructor(): this(-1, "")
 }
