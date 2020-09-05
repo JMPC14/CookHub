@@ -11,26 +11,8 @@
         android:layout_height="wrap_content"
         android:gravity="end"
         app:layout_constraintBottom_toBottomOf="@+id/editTextNewIngredientQuantity"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/imageViewDeleteIngredient"
         app:layout_constraintTop_toTopOf="@+id/editTextNewIngredientQuantity" />
-
-    <EditText
-        android:id="@+id/editTextNewIngredientQuantity"
-        style="@style/Widget.AppCompat.EditText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="#00FFFFFF"
-        android:backgroundTint="#33000000"
-        android:gravity="end"
-        android:hint="Quantity"
-        android:inputType="textMultiLine|number"
-        android:textAlignment="textEnd"
-        android:textSize="14sp"
-        android:maxWidth="120dp"
-        android:digits="0123456789"
-        app:layout_constraintBottom_toBottomOf="@+id/editTextNewIngredientName"
-        app:layout_constraintEnd_toStartOf="@+id/spinnerIngredientQuantity"
-        app:layout_constraintTop_toTopOf="@+id/editTextNewIngredientName" />
 
     <EditText
         android:id="@+id/editTextNewIngredientName"
@@ -50,5 +32,32 @@
         app:layout_constraintEnd_toStartOf="@+id/editTextNewIngredientQuantity"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/editTextNewIngredientQuantity"
+        style="@style/Widget.AppCompat.EditText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#00FFFFFF"
+        android:backgroundTint="#33000000"
+        android:gravity="end"
+        android:hint="Quantity"
+        android:inputType="textMultiLine|number"
+        android:textAlignment="textEnd"
+        android:textSize="14sp"
+        android:maxWidth="120dp"
+        android:digits="0123456789"
+        app:layout_constraintBottom_toBottomOf="@+id/editTextNewIngredientName"
+        app:layout_constraintEnd_toStartOf="@+id/spinnerIngredientQuantity"
+        app:layout_constraintTop_toTopOf="@+id/editTextNewIngredientName" />
+
+    <ImageView
+        android:id="@+id/imageViewDeleteIngredient"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/spinnerIngredientQuantity"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/spinnerIngredientQuantity"
+        app:srcCompat="@drawable/ic_baseline_close_24_red" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

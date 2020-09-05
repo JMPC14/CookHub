@@ -59,8 +59,9 @@ class NewRecipeFragment : Fragment() {
 
             val ref = FirebaseDatabase.getInstance().getReference("/users/${CurrentUser.user!!.uid}/recipes").push()
             val recipe = Recipe(title, ingredientList, instructions, ref.key)
-            CurrentUser.recipes.add(recipe)
-            ref.setValue(recipe)
+            ref.setValue(recipe).addOnSuccessListener {
+                CurrentUser.recipes.add(recipe)
+            }
 
             requireActivity().supportFragmentManager.beginTransaction().remove(this)
             requireActivity().supportFragmentManager.popBackStack()
@@ -80,19 +81,8 @@ class NewRecipeFragment : Fragment() {
             spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             viewHolder.itemView.spinnerIngredientQuantity.adapter = spinnerAdapter
 
-            viewHolder.itemView.setOnLongClickListener {
-                val pop = PopupMenu(it.context, it)
-                pop.inflate(R.menu.new_ingredient_menu)
-                pop.setOnMenuItemClickListener {
-                    when (it.itemId) {
-                        R.id.remove_ingredient -> {
-                            adapter.remove(this)
-                        }
-                    }
-                    true
-                }
-                pop.show()
-                true
+            viewHolder.itemView.imageViewDeleteIngredient.setOnClickListener {
+                adapter.remove(this)
             }
         }
 

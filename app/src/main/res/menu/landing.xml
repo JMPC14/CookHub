@@ -3,11 +3,5 @@
 
     <item
         android:id="@+id/optionsSignOut"
-        android:title="Sign Out" />
-    <item
-        android:id="@+id/item2"
-        android:title="item2" />
-    <item
-        android:id="@+id/item3"
-        android:title="item3" />
+        android:title="@string/sign_out" />
 </menu>

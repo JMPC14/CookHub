@@ -1,12 +1,15 @@
 package com.tm470.cookhub
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.ActionBar
 import com.google.android.material.navigation.NavigationView
@@ -25,6 +28,7 @@ import com.google.firebase.database.*
 import com.squareup.picasso.Picasso
 import com.tm470.cookhub.launcher.LauncherActivity
 import com.tm470.cookhub.models.CookhubUser
+import com.tm470.cookhub.models.Ingredient
 import com.tm470.cookhub.models.Recipe
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
@@ -36,6 +40,7 @@ import kotlinx.android.synthetic.main.latest_message_row.view.*
 import kotlinx.android.synthetic.main.nav_header_main.*
 
 @RequiresApi(Build.VERSION_CODES.O)
+@SuppressLint("SetTextI18n")
 class LandingActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
@@ -76,6 +81,8 @@ class LandingActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
                 DividerItemDecoration.VERTICAL
             )
         )
+
+        toolbar.title = "Latest Messages"
 
         fetchUser()
 
@@ -127,7 +134,6 @@ class LandingActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
         })
     }
 
-    @SuppressLint("SetTextI18n")
     inner class LatestMessageRow(private val chatMessage: ChatMessage) : Item<GroupieViewHolder>() {
         override fun bind(viewHolder: GroupieViewHolder, position: Int) {
             val chatOtherUserId: String?
@@ -191,6 +197,7 @@ class LandingActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
                         CurrentUser.user = snapshot.getValue(CookhubUser::class.java)
                         textViewNavHeaderMain.text = CurrentUser.user!!.username
                         fetchRecipes()
+                        fetchIngredients()
                         fetchFriends()
                         listenForLatestMessages()
                     }
@@ -244,6 +251,28 @@ class LandingActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
         })
     }
 
+    private fun fetchIngredients() {
+        val ref = FirebaseDatabase.getInstance().getReference("/users/${CurrentUser.user!!.uid}/ingredients")
+        ref.addChildEventListener(object : ChildEventListener {
+            override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
+                val ingredient = snapshot.getValue(Ingredient::class.java)!!
+                CurrentUser.ingredients.add(ingredient)
+            }
+
+            override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
+            }
+
+            override fun onChildRemoved(snapshot: DataSnapshot) {
+            }
+
+            override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+            }
+        })
+    }
+
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.landing, menu)
         return true
@@ -258,10 +287,6 @@ class LandingActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
                 val intent = Intent(this, LauncherActivity::class.java)
                 intent.flags = (Intent.FLAG_ACTIVITY_CLEAR_TASK) or (Intent.FLAG_ACTIVITY_NEW_TASK)
                 startActivity(intent)
-            }
-            R.id.item2 -> {
-            }
-            R.id.item3 -> {
             }
         }
         return super.onOptionsItemSelected(item)
@@ -329,17 +354,14 @@ class LandingActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
 
                     "FriendsFragment" -> {
                         nav_view.setCheckedItem(R.id.nav_friends)
-                        toolbar.title = "Friends"
                     }
 
                     "RecipesFragment" -> {
                         nav_view.setCheckedItem(R.id.nav_recipes)
-                        toolbar.title = "Recipes"
                     }
 
                     "IngredientsFragment" -> {
                         nav_view.setCheckedItem(R.id.nav_ingredients)
-                        toolbar.title = "Pantry"
                     }
                 }
             } else {
