@@ -36,7 +36,7 @@ class RecipesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        requireActivity().toolbar.title = "Recipes"
+        requireActivity().toolbar.title = "My Recipes"
 
         adapter.clear()
 
@@ -53,7 +53,7 @@ class RecipesFragment : Fragment() {
     }
 
     private fun displayRecipes() {
-        CurrentUser.recipes.forEach {
+        CurrentUser.recipes!!.forEach {
             adapter.apply {
                 this.add(ExpandableGroup(ExpandableHeaderItem(it)).apply {
                     it.ingredients!!.forEach {

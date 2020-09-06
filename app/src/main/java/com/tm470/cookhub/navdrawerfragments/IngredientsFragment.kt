@@ -6,10 +6,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.database.FirebaseDatabase
 import com.tm470.cookhub.CurrentUser
 import com.tm470.cookhub.R
+import com.tm470.cookhub.hideKeyboardFrom
 import com.tm470.cookhub.models.Ingredient
 import com.tm470.cookhub.models.Quantity
 import com.xwray.groupie.GroupAdapter
@@ -33,7 +35,7 @@ class IngredientsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        requireActivity().toolbar.title = "Pantry"
+        requireActivity().toolbar.title = "Ingredients"
 
         adapter.clear()
 
@@ -55,6 +57,10 @@ class IngredientsFragment : Fragment() {
 
             ref.setValue(ingredientList).addOnSuccessListener {
                 CurrentUser.ingredients = ingredientList
+
+                Toast.makeText(requireContext(), "Ingredients saved.", Toast.LENGTH_LONG).show()
+
+                hideKeyboardFrom(requireContext(), requireView())
             }
         }
 
@@ -65,7 +71,7 @@ class IngredientsFragment : Fragment() {
     }
 
     private fun displayIngredients() {
-        CurrentUser.ingredients.forEach {
+        CurrentUser.ingredients!!.forEach {
             adapter.add(IngredientItem(it))
         }
     }

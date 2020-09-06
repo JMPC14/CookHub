@@ -9,9 +9,10 @@ object CurrentUser {
     var friends: MutableList<String>? = null
     var currentChatUser: CookhubUser? = null
     var cid: String? = null
-    var recipes: MutableList<Recipe> = mutableListOf()
-    var ingredients: MutableList<Ingredient> = mutableListOf()
+    var recipes: MutableList<Recipe>? = mutableListOf()
+    var ingredients: MutableList<Ingredient>? = mutableListOf()
     var attachedImage: String? = null
     var attachedRecipe: String? = null
     var editRecipe: Recipe? = null
+    var viewRecipe: Recipe? = null
 }

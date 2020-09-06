@@ -16,6 +16,10 @@
             android:id="@+id/nav_friends"
             android:icon="@drawable/ic_baseline_contacts_24"
             android:title="@string/friends" />
+        <item
+            android:id="@+id/nav_public_recipes"
+            android:icon="@drawable/ic_baseline_cake_24"
+            android:title="Public Recipes" />
     </group>
 
     <item android:title="@string/pantry">

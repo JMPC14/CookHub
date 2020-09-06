@@ -53,9 +53,9 @@ class EditRecipeFragment : Fragment() {
 
 
             val ref = FirebaseDatabase.getInstance().getReference("/users/${CurrentUser.user!!.uid}/recipes/${CurrentUser.editRecipe!!.id}")
-            val recipe = Recipe(title, ingredientList, instructions, ref.key)
+            val recipe = Recipe(title, ingredientList, instructions, ref.key, switchRecipePublic.isChecked, CurrentUser.user!!.username!!)
             ref.setValue(recipe).addOnSuccessListener {
-                CurrentUser.recipes[CurrentUser.recipes.indexOf(CurrentUser.editRecipe!!)] = recipe
+                CurrentUser.recipes!![CurrentUser.recipes!!.indexOf(CurrentUser.editRecipe!!)] = recipe
                 requireActivity().supportFragmentManager.beginTransaction().remove(this)
                 requireActivity().supportFragmentManager.popBackStack()
 
@@ -74,7 +74,6 @@ class EditRecipeFragment : Fragment() {
     }
 
     private fun loadRecipeForId(recipe: Recipe) {
-        val ref = FirebaseDatabase.getInstance().getReference("/users/${CurrentUser.user!!.uid}/recipes/${recipe.id}")
         editTextRecipeTitle.setText(recipe.name)
         editTextRecipeInstructions.setText(recipe.instructions)
         recipe.ingredients!!.forEach {

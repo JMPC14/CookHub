@@ -96,4 +96,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/editTextRecipeTitle" />
 
+    <Switch
+        android:id="@+id/switchRecipePublic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="4dp"
+        android:text="Public"
+        app:layout_constraintBottom_toBottomOf="@+id/buttonNewIngredient"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/buttonNewIngredient" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

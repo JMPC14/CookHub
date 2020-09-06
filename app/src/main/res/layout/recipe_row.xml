@@ -27,6 +27,14 @@
             app:layout_constraintStart_toEndOf="@+id/indicator"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <TextView
+            android:id="@+id/recipeAuthor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/recipeTitle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/recipeTitle" />
+
         <ImageView
             android:id="@+id/indicator"
             android:layout_width="24dp"

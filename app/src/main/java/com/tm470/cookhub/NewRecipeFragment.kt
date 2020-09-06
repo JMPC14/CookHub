@@ -57,13 +57,13 @@ class NewRecipeFragment : Fragment() {
 
 
             val ref = FirebaseDatabase.getInstance().getReference("/users/${CurrentUser.user!!.uid}/recipes").push()
-            val recipe = Recipe(title, ingredientList, instructions, ref.key)
+            val recipe = Recipe(title, ingredientList, instructions, ref.key, switchRecipePublic.isChecked, CurrentUser.user!!.username!!)
             ref.setValue(recipe).addOnSuccessListener {
-                CurrentUser.recipes.add(recipe)
-            }
+                requireActivity().supportFragmentManager.beginTransaction().remove(this)
+                requireActivity().supportFragmentManager.popBackStack()
 
-            requireActivity().supportFragmentManager.beginTransaction().remove(this)
-            requireActivity().supportFragmentManager.popBackStack()
+                hideKeyboardFrom(requireContext(), this.requireView())
+            }
         }
 
         recyclerViewNewRecipeIngredients.layoutManager = LinearLayoutManager(context)

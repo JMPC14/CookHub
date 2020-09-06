@@ -26,10 +26,7 @@ import com.tm470.cookhub.models.ChatMessage
 import com.tm470.cookhub.models.CookhubUser
 import com.tm470.cookhub.models.Ingredient
 import com.tm470.cookhub.models.Recipe
-import com.tm470.cookhub.navdrawerfragments.FriendsFragment
-import com.tm470.cookhub.navdrawerfragments.IngredientsFragment
-import com.tm470.cookhub.navdrawerfragments.ProfileFragment
-import com.tm470.cookhub.navdrawerfragments.RecipesFragment
+import com.tm470.cookhub.navdrawerfragments.*
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Item
@@ -230,11 +227,12 @@ class LandingActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
     }
 
     private fun fetchRecipes() {
+        CurrentUser.recipes = mutableListOf()
         val ref = FirebaseDatabase.getInstance().getReference("/users/${CurrentUser.user!!.uid}/recipes")
         ref.addChildEventListener(object : ChildEventListener {
             override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
                 val recipe = snapshot.getValue(Recipe::class.java)!!
-                CurrentUser.recipes.add(recipe)
+                CurrentUser.recipes!!.add(recipe)
             }
 
             override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
@@ -256,7 +254,7 @@ class LandingActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
         ref.addChildEventListener(object : ChildEventListener {
             override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
                 val ingredient = snapshot.getValue(Ingredient::class.java)!!
-                CurrentUser.ingredients.add(ingredient)
+                CurrentUser.ingredients!!.add(ingredient)
             }
 
             override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
@@ -283,7 +281,15 @@ class LandingActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
             R.id.optionsSignOut -> {
                 FirebaseAuth.getInstance().signOut()
                 FirebaseDatabase.getInstance().getReference("/online-users/${CurrentUser.user!!.uid}").setValue(false)
+
                 CurrentUser.user = null
+                CurrentUser.recipes = null
+                CurrentUser.ingredients = null
+                CurrentUser.cid = null
+                CurrentUser.friends = null
+                CurrentUser.currentChatUser = null
+                CurrentUser.editRecipe = null
+
                 val intent = Intent(this, LauncherActivity::class.java)
                 intent.flags = (Intent.FLAG_ACTIVITY_CLEAR_TASK) or (Intent.FLAG_ACTIVITY_NEW_TASK)
                 startActivity(intent)
@@ -317,21 +323,24 @@ class LandingActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
                 supportFragmentManager.beginTransaction()
                     .replace(R.id.nav_host_fragment, FriendsFragment(), "FriendsFragment")
                     .addToBackStack("FriendsFragment").commit()
-                toolbar.title = "Friends"
+            }
+
+            R.id.nav_public_recipes -> {
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.nav_host_fragment, PublicRecipesFragment(), "PublicRecipesFragment")
+                    .addToBackStack("PublicRecipesFragment").commit()
             }
 
             R.id.nav_recipes -> {
                 supportFragmentManager.beginTransaction()
                     .replace(R.id.nav_host_fragment, RecipesFragment(), "RecipesFragment")
                     .addToBackStack("RecipesFragment").commit()
-                toolbar.title = "Recipes"
             }
 
             R.id.nav_ingredients -> {
                 supportFragmentManager.beginTransaction()
                     .replace(R.id.nav_host_fragment, IngredientsFragment(), "IngredientsFragment")
                     .addToBackStack("IngredientsFragment").commit()
-                toolbar.title = "Pantry"
             }
         }
         drawer_layout.closeDrawers()
@@ -362,6 +371,10 @@ class LandingActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
 
                     "IngredientsFragment" -> {
                         nav_view.setCheckedItem(R.id.nav_ingredients)
+                    }
+
+                    "PublicRecipesFragment" -> {
+                        nav_view.setCheckedItem(R.id.nav_public_recipes)
                     }
                 }
             } else {
