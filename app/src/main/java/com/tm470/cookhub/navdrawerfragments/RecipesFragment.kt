@@ -1,4 +1,4 @@
-package com.tm470.cookhub
+package com.tm470.cookhub.navdrawerfragments
 
 import android.os.Build
 import android.os.Bundle
@@ -8,10 +8,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.tm470.cookhub.CurrentUser
+import com.tm470.cookhub.EditRecipeFragment
+import com.tm470.cookhub.NewRecipeFragment
+import com.tm470.cookhub.R
 import com.tm470.cookhub.models.Ingredient
+import com.tm470.cookhub.models.Recipe
 import com.xwray.groupie.*
 import kotlinx.android.synthetic.main.app_bar_main.*
-import kotlinx.android.synthetic.main.fragment_new_recipe.*
 import kotlinx.android.synthetic.main.fragment_recipes.*
 import kotlinx.android.synthetic.main.recipe_row.view.*
 import kotlinx.android.synthetic.main.recipe_row_child.view.*
@@ -51,7 +55,7 @@ class RecipesFragment : Fragment() {
     private fun displayRecipes() {
         CurrentUser.recipes.forEach {
             adapter.apply {
-                this.add(ExpandableGroup(ExpandableHeaderItem(it.name!!)).apply {
+                this.add(ExpandableGroup(ExpandableHeaderItem(it)).apply {
                     it.ingredients!!.forEach {
                         add(ChildItem(it))
                     }
@@ -60,7 +64,7 @@ class RecipesFragment : Fragment() {
         }
     }
 
-    class ExpandableHeaderItem(val title: String): com.xwray.groupie.kotlinandroidextensions.Item(), ExpandableItem {
+    inner class ExpandableHeaderItem(val recipe: Recipe): com.xwray.groupie.kotlinandroidextensions.Item(), ExpandableItem {
 
         private lateinit var expandableGroup: ExpandableGroup
 
@@ -68,14 +72,18 @@ class RecipesFragment : Fragment() {
             viewHolder: com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder,
             position: Int
         ) {
-            viewHolder.root.recipeTitle.text = title
+            viewHolder.root.recipeTitle.text = recipe.name
+
             viewHolder.itemView.indicator.setOnClickListener {
                 expandableGroup.onToggleExpanded()
                 changeStuff(viewHolder)
             }
 
             viewHolder.itemView.setOnClickListener {
-
+                CurrentUser.editRecipe = recipe
+                requireActivity().supportFragmentManager.beginTransaction()
+                    .replace(R.id.nav_host_fragment, EditRecipeFragment(), "EditRecipeFragment")
+                    .addToBackStack("EditRecipeFragment").commit()
             }
         }
 
@@ -85,7 +93,8 @@ class RecipesFragment : Fragment() {
             viewHolder.root.indicator.apply {
                 setImageResource(
                     if (expandableGroup.isExpanded) R.drawable.ic_baseline_arrow_drop_down_24
-                    else R.drawable.ic_baseline_arrow_right_24)
+                    else R.drawable.ic_baseline_arrow_right_24
+                )
             }
         }
 

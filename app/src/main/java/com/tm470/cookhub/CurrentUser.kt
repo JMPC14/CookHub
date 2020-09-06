@@ -13,4 +13,5 @@ object CurrentUser {
     var ingredients: MutableList<Ingredient> = mutableListOf()
     var attachedImage: String? = null
     var attachedRecipe: String? = null
+    var editRecipe: Recipe? = null
 }

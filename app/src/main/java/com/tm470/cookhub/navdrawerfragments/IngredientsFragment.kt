@@ -1,4 +1,4 @@
-package com.tm470.cookhub
+package com.tm470.cookhub.navdrawerfragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -6,48 +6,46 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import android.widget.PopupMenu
-import androidx.core.view.forEach
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.database.FirebaseDatabase
+import com.tm470.cookhub.CurrentUser
+import com.tm470.cookhub.R
 import com.tm470.cookhub.models.Ingredient
 import com.tm470.cookhub.models.Quantity
-import com.tm470.cookhub.models.Recipe
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Item
 import kotlinx.android.synthetic.main.app_bar_main.*
-import kotlinx.android.synthetic.main.fragment_new_recipe.*
+import kotlinx.android.synthetic.main.fragment_ingredients.*
 import kotlinx.android.synthetic.main.new_recipe_ingredient_item.view.*
-import java.util.*
 
+class IngredientsFragment : Fragment() {
 
-class NewRecipeFragment : Fragment() {
-
-    private val adapter = GroupAdapter<GroupieViewHolder>()
+    val adapter = GroupAdapter<GroupieViewHolder>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_new_recipe, container, false)
+        return inflater.inflate(R.layout.fragment_ingredients, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        requireActivity().toolbar.title = "New Recipe"
+        requireActivity().toolbar.title = "Pantry"
 
-        buttonNewIngredient.setOnClickListener {
-            adapter.add(NewIngredientItem())
+        adapter.clear()
+
+        buttonAddIngredient.setOnClickListener {
+            adapter.add(IngredientItem())
         }
 
-        buttonSaveRecipe.setOnClickListener {
-            val title = editTextRecipeTitle.text.toString()
-            val instructions = editTextRecipeInstructions.text.toString()
+        buttonSaveIngredients.setOnClickListener {
+            val ref = FirebaseDatabase.getInstance().getReference("/users/${CurrentUser.user!!.uid}/ingredients")
             val ingredientList = mutableListOf<Ingredient>()
             for (i in 0 until adapter.itemCount) {
-                val item = recyclerViewNewRecipeIngredients.findViewHolderForAdapterPosition(i)!!.itemView
+                val item = recyclerViewIngredients.findViewHolderForAdapterPosition(i)!!.itemView
                 val ingredientName = item.editTextNewIngredientName.text.toString()
                 val ingredientQuantity = item.editTextNewIngredientQuantity.text.toString().toInt()
                 val quantityType = item.spinnerIngredientQuantity.selectedItem.toString()
@@ -55,30 +53,42 @@ class NewRecipeFragment : Fragment() {
                 ingredientList.add(Ingredient(ingredientName, Quantity(ingredientQuantity, quantityType)))
             }
 
-
-            val ref = FirebaseDatabase.getInstance().getReference("/users/${CurrentUser.user!!.uid}/recipes").push()
-            val recipe = Recipe(title, ingredientList, instructions, ref.key)
-            ref.setValue(recipe).addOnSuccessListener {
-                CurrentUser.recipes.add(recipe)
+            ref.setValue(ingredientList).addOnSuccessListener {
+                CurrentUser.ingredients = ingredientList
             }
-
-            requireActivity().supportFragmentManager.beginTransaction().remove(this)
-            requireActivity().supportFragmentManager.popBackStack()
         }
 
-        recyclerViewNewRecipeIngredients.layoutManager = LinearLayoutManager(context)
-        recyclerViewNewRecipeIngredients.adapter = adapter
+        recyclerViewIngredients.layoutManager = LinearLayoutManager(context)
+        recyclerViewIngredients.adapter = adapter
 
-        adapter.add(NewIngredientItem())
+        displayIngredients()
     }
 
-    inner class NewIngredientItem: Item<GroupieViewHolder>() {
+    private fun displayIngredients() {
+        CurrentUser.ingredients.forEach {
+            adapter.add(IngredientItem(it))
+        }
+    }
+
+    inner class IngredientItem(val ingredient: Ingredient): Item<GroupieViewHolder>() {
+
+        constructor(): this(Ingredient())
 
         override fun bind(viewHolder: GroupieViewHolder, position: Int) {
+            viewHolder.itemView.editTextNewIngredientName.setText(ingredient.name)
+            viewHolder.itemView.editTextNewIngredientQuantity.setText(ingredient.quantity!!.amount.toString())
+
             val array = listOf("g", "kg", "ml", "L", "oz", "lbs")
             val spinnerAdapter = ArrayAdapter<String>(context!!, android.R.layout.simple_spinner_dropdown_item, array)
             spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             viewHolder.itemView.spinnerIngredientQuantity.adapter = spinnerAdapter
+            var a = 0
+            array.forEach {
+                if (ingredient.quantity!!.type == it) {
+                    a = array.indexOf(it)
+                }
+            }
+            viewHolder.itemView.spinnerIngredientQuantity.setSelection(a)
 
             viewHolder.itemView.imageViewDeleteIngredient.setOnClickListener {
                 adapter.remove(this)

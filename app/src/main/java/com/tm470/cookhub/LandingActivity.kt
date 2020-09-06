@@ -1,17 +1,12 @@
 package com.tm470.cookhub
 
 import android.annotation.SuppressLint
-import android.app.Activity
-import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import androidx.annotation.RequiresApi
-import androidx.appcompat.app.ActionBar
 import com.google.android.material.navigation.NavigationView
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -27,9 +22,14 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.squareup.picasso.Picasso
 import com.tm470.cookhub.launcher.LauncherActivity
+import com.tm470.cookhub.models.ChatMessage
 import com.tm470.cookhub.models.CookhubUser
 import com.tm470.cookhub.models.Ingredient
 import com.tm470.cookhub.models.Recipe
+import com.tm470.cookhub.navdrawerfragments.FriendsFragment
+import com.tm470.cookhub.navdrawerfragments.IngredientsFragment
+import com.tm470.cookhub.navdrawerfragments.ProfileFragment
+import com.tm470.cookhub.navdrawerfragments.RecipesFragment
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Item

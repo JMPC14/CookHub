@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="#EEEEEE"
     android:clickable="true"
-    tools:context=".FriendsFragment">
+    tools:context=".navdrawerfragments.FriendsFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewFriends"

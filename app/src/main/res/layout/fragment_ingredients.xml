@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="#EEEEEE"
     android:clickable="true"
-    tools:context=".IngredientsFragment">
+    tools:context=".navdrawerfragments.IngredientsFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewIngredients"
