@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#EEEEEE"
+    android:background="@drawable/profile_gradient"
     android:clickable="true"
     tools:context=".navdrawerfragments.ProfileFragment">
 
@@ -19,103 +19,122 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/username"
-        android:layout_width="150dp"
-        android:layout_height="45dp"
-        android:layout_marginTop="100dp"
-        android:layout_marginEnd="150dp"
-        android:background="@drawable/rounded_text_profile_top_left"
-        android:gravity="right|center_vertical"
-        android:padding="0dp"
-        android:paddingEnd="12dp"
-        android:text="Username"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="60dp"
         app:layout_constraintEnd_toEndOf="@+id/imageViewProfile"
+        app:layout_constraintHorizontal_bias="0.507"
         app:layout_constraintStart_toStartOf="@+id/imageViewProfile"
-        app:layout_constraintTop_toBottomOf="@+id/imageViewProfile" />
+        app:layout_constraintTop_toBottomOf="@+id/imageViewProfile">
 
-    <TextView
-        android:id="@+id/textViewUsername"
-        android:layout_width="150dp"
-        android:layout_height="45dp"
-        android:background="@drawable/rounded_text_profile_top_right"
-        android:gravity="left|center_vertical"
-        android:paddingStart="12dp"
-        android:translationX="-1dp"
-        app:layout_constraintBottom_toBottomOf="@+id/username"
-        app:layout_constraintStart_toEndOf="@+id/username"
-        app:layout_constraintTop_toTopOf="@+id/username" />
+        <TextView
+            android:id="@+id/username"
+            android:layout_width="150dp"
+            android:layout_height="45dp"
+            android:background="@drawable/rounded_text_profile_top_left"
+            android:gravity="right|center_vertical"
+            android:padding="0dp"
+            android:paddingEnd="12dp"
+            android:text="Username"
+            android:textColor="#FFFFFF"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/emailAddress"
-        android:layout_width="150dp"
-        android:layout_height="41dp"
-        android:background="#FFFFFF"
-        android:gravity="right|center_vertical"
-        android:padding="0dp"
-        android:paddingEnd="12dp"
-        android:text="Email Address"
-        app:layout_constraintEnd_toEndOf="@+id/username"
-        app:layout_constraintTop_toBottomOf="@+id/username" />
+        <TextView
+            android:id="@+id/textViewUsername"
+            android:layout_width="150dp"
+            android:layout_height="45dp"
+            android:background="@drawable/rounded_text_profile_top_right"
+            android:gravity="left|center_vertical"
+            android:paddingStart="12dp"
+            android:textColor="#FFFFFF"
+            android:translationX="-2dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/username"
+            app:layout_constraintTop_toTopOf="@+id/username" />
 
-    <TextView
-        android:id="@+id/textViewEmailAddress"
-        android:layout_width="150dp"
-        android:layout_height="41dp"
-        android:background="#FFFFFF"
-        android:gravity="left|center_vertical"
-        android:paddingStart="12dp"
-        android:translationX="-1dp"
-        app:layout_constraintBottom_toBottomOf="@+id/emailAddress"
-        app:layout_constraintStart_toStartOf="@+id/textViewUsername"
-        app:layout_constraintTop_toTopOf="@+id/emailAddress" />
+        <TextView
+            android:id="@+id/emailAddress"
+            android:layout_width="150dp"
+            android:layout_height="45dp"
+            android:background="@drawable/border_text_email"
+            android:gravity="right|center_vertical"
+            android:padding="0dp"
+            android:paddingEnd="12dp"
+            android:text="Email Address"
+            android:textColor="#FFFFFF"
+            android:translationY="-2dp"
+            app:layout_constraintStart_toStartOf="@+id/username"
+            app:layout_constraintTop_toBottomOf="@+id/username" />
 
-    <TextView
-        android:id="@+id/recipes"
-        android:layout_width="150dp"
-        android:layout_height="45dp"
-        android:background="@drawable/border_text_email"
-        android:gravity="right|center_vertical"
-        android:padding="0dp"
-        android:paddingEnd="12dp"
-        android:text="Recipes"
-        app:layout_constraintEnd_toEndOf="@+id/emailAddress"
-        app:layout_constraintTop_toBottomOf="@+id/emailAddress" />
+        <TextView
+            android:id="@+id/textViewEmailAddress"
+            android:layout_width="150dp"
+            android:layout_height="45dp"
+            android:background="@drawable/border_text_email"
+            android:gravity="left|center_vertical"
+            android:paddingStart="12dp"
+            android:textColor="#FFFFFF"
+            android:translationX="-2dp"
+            android:translationY="-2dp"
+            app:layout_constraintEnd_toEndOf="@+id/textViewUsername"
+            app:layout_constraintTop_toBottomOf="@+id/textViewUsername" />
 
-    <TextView
-        android:id="@+id/textViewRecipes"
-        android:layout_width="150dp"
-        android:layout_height="45dp"
-        android:background="@drawable/border_text_email"
-        android:gravity="left|center_vertical"
-        android:paddingStart="12dp"
-        android:translationX="-1dp"
-        app:layout_constraintBottom_toBottomOf="@+id/recipes"
-        app:layout_constraintStart_toStartOf="@+id/textViewEmailAddress"
-        app:layout_constraintTop_toTopOf="@+id/recipes" />
+        <TextView
+            android:id="@+id/recipes"
+            android:layout_width="150dp"
+            android:layout_height="45dp"
+            android:background="@drawable/border_text_email"
+            android:gravity="right|center_vertical"
+            android:padding="0dp"
+            android:paddingEnd="12dp"
+            android:text="Recipes"
+            android:textColor="#FFFFFF"
+            android:translationY="-4dp"
+            app:layout_constraintStart_toStartOf="@+id/emailAddress"
+            app:layout_constraintTop_toBottomOf="@+id/emailAddress" />
 
-    <TextView
-        android:id="@+id/ingredients"
-        android:layout_width="150dp"
-        android:layout_height="43dp"
-        android:background="@drawable/rounded_text_profile_bottom_left"
-        android:gravity="right|center_vertical"
-        android:padding="0dp"
-        android:paddingEnd="12dp"
-        android:text="Ingredients"
-        app:layout_constraintEnd_toEndOf="@+id/recipes"
-        app:layout_constraintTop_toBottomOf="@+id/recipes" />
+        <TextView
+            android:id="@+id/textViewRecipes"
+            android:layout_width="150dp"
+            android:layout_height="45dp"
+            android:background="@drawable/border_text_email"
+            android:gravity="left|center_vertical"
+            android:paddingStart="12dp"
+            android:textColor="#FFFFFF"
+            android:translationX="-2dp"
+            android:translationY="-4dp"
+            app:layout_constraintEnd_toEndOf="@+id/textViewEmailAddress"
+            app:layout_constraintTop_toBottomOf="@+id/textViewEmailAddress" />
 
-    <TextView
-        android:id="@+id/textViewIngredients"
-        android:layout_width="150dp"
-        android:layout_height="43dp"
-        android:background="@drawable/rounded_text_profile_bottom_right"
-        android:gravity="left|center_vertical"
-        android:paddingStart="12dp"
-        android:translationX="-1dp"
-        app:layout_constraintBottom_toBottomOf="@+id/ingredients"
-        app:layout_constraintStart_toStartOf="@+id/textViewRecipes"
-        app:layout_constraintTop_toTopOf="@+id/ingredients" />
+        <TextView
+            android:id="@+id/ingredients"
+            android:layout_width="150dp"
+            android:layout_height="45dp"
+            android:background="@drawable/rounded_text_profile_bottom_left"
+            android:gravity="right|center_vertical"
+            android:padding="0dp"
+            android:paddingEnd="12dp"
+            android:text="Ingredients"
+            android:textColor="#FFFFFF"
+            android:translationY="-6dp"
+            app:layout_constraintStart_toStartOf="@+id/recipes"
+            app:layout_constraintTop_toBottomOf="@+id/recipes" />
+
+        <TextView
+            android:id="@+id/textViewIngredients"
+            android:layout_width="150dp"
+            android:layout_height="45dp"
+            android:background="@drawable/rounded_text_profile_bottom_right"
+            android:gravity="left|center_vertical"
+            android:paddingStart="12dp"
+            android:textColor="#FFFFFF"
+            android:translationX="-2dp"
+            android:translationY="-6dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewRecipes" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

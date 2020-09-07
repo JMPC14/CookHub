@@ -36,4 +36,5 @@
     <string name="ingredients">My Ingredients</string>
     <string name="select_photo">Select Photo</string>
     <string name="sign_out">Sign Out</string>
+    <string name="dialog_info">A green checkmark next to an ingredient indicates that you have this ingredient in your inventory and have enough to use in the recipe. An orange checkmark indicates that you have the ingredient in your inventory but do not have enough to make the recipe.</string>
 </resources>

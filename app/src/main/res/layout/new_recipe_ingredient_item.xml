@@ -47,6 +47,7 @@
         android:textSize="14sp"
         android:maxWidth="120dp"
         android:digits="0123456789"
+        android:maxLength="8"
         app:layout_constraintBottom_toBottomOf="@+id/editTextNewIngredientName"
         app:layout_constraintEnd_toStartOf="@+id/spinnerIngredientQuantity"
         app:layout_constraintTop_toTopOf="@+id/editTextNewIngredientName" />

@@ -61,7 +61,7 @@ class ViewRecipeFragment : Fragment() {
             viewHolder.itemView.editTextNewIngredientName.setText(ingredient.name)
             viewHolder.itemView.editTextNewIngredientQuantity.setText(ingredient.quantity!!.amount.toString())
 
-            val array = listOf("g", "kg", "ml", "L", "oz", "lbs")
+            val array = listOf("g", "kg", "ml", "L", "oz", "lbs", "fl oz")
             val spinnerAdapter = ArrayAdapter<String>(context!!, android.R.layout.simple_spinner_dropdown_item, array)
             spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             viewHolder.itemView.spinnerIngredientQuantity.adapter = spinnerAdapter

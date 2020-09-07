@@ -49,7 +49,7 @@ class NewRecipeFragment : Fragment() {
             for (i in 0 until adapter.itemCount) {
                 val item = recyclerViewNewRecipeIngredients.findViewHolderForAdapterPosition(i)!!.itemView
                 val ingredientName = item.editTextNewIngredientName.text.toString()
-                val ingredientQuantity = item.editTextNewIngredientQuantity.text.toString().toInt()
+                val ingredientQuantity = item.editTextNewIngredientQuantity.text.toString().toDouble()
                 val quantityType = item.spinnerIngredientQuantity.selectedItem.toString()
 
                 ingredientList.add(Ingredient(ingredientName, Quantity(ingredientQuantity, quantityType)))
@@ -75,7 +75,7 @@ class NewRecipeFragment : Fragment() {
     inner class NewIngredientItem: Item<GroupieViewHolder>() {
 
         override fun bind(viewHolder: GroupieViewHolder, position: Int) {
-            val array = listOf("g", "kg", "ml", "L", "oz", "lbs")
+            val array = listOf("g", "kg", "ml", "L", "oz", "lbs", "fl oz")
             val spinnerAdapter = ArrayAdapter<String>(context!!, android.R.layout.simple_spinner_dropdown_item, array)
             spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             viewHolder.itemView.spinnerIngredientQuantity.adapter = spinnerAdapter

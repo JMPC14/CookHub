@@ -14,9 +14,30 @@
         android:layout_marginStart="16dp"
         android:textColor="#444444"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/ingredientQuantity"
+        app:layout_constraintEnd_toStartOf="@+id/imageViewCheckMarkGreen"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageViewCheckMarkGreen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/ingredientTitle"
+        app:layout_constraintEnd_toStartOf="@+id/imageViewCheckMarkOrange"
+        app:layout_constraintTop_toTopOf="@+id/ingredientTitle"
+        app:srcCompat="@drawable/ic_baseline_check_24_green" />
+
+    <ImageView
+        android:id="@+id/imageViewCheckMarkOrange"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/imageViewCheckMarkGreen"
+        app:layout_constraintEnd_toStartOf="@+id/ingredientQuantity"
+        app:layout_constraintTop_toTopOf="@+id/imageViewCheckMarkGreen"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/ic_baseline_check_24_orange" />
 
     <TextView
         android:id="@+id/ingredientQuantity"
@@ -26,8 +47,7 @@
         android:maxWidth="50dp"
         app:layout_constraintBottom_toBottomOf="@+id/ingredientTitle"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/ingredientTitle"
-        tools:text="test" />
+        app:layout_constraintTop_toTopOf="@+id/ingredientTitle" />
 
     <TextView
         android:id="@+id/ingredientQuantityType"
@@ -35,8 +55,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="@+id/ingredientQuantity"
         app:layout_constraintStart_toEndOf="@+id/ingredientQuantity"
-        app:layout_constraintTop_toTopOf="@+id/ingredientQuantity"
-        tools:text="test" />
+        app:layout_constraintTop_toTopOf="@+id/ingredientQuantity" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
