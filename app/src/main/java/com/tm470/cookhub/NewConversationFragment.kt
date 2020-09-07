@@ -9,23 +9,18 @@ import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.firebase.analytics.FirebaseAnalytics
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.squareup.picasso.Picasso
-import com.tm470.cookhub.models.CookhubUser
+import com.tm470.cookhub.models.CookHubUser
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Item
 import kotlinx.android.synthetic.main.app_bar_main.*
-import kotlinx.android.synthetic.main.fragment_friends.*
 import kotlinx.android.synthetic.main.fragment_new_conversation.*
-import kotlinx.android.synthetic.main.friend_row.*
 import kotlinx.android.synthetic.main.friend_row.view.*
-import java.net.CookieHandler
 import java.util.*
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -53,13 +48,13 @@ class NewConversationFragment : Fragment() {
 
     private fun displayFriends() {
         val adapter = GroupAdapter<GroupieViewHolder>()
-        val list: MutableList<CookhubUser>? = mutableListOf()
+        val list: MutableList<CookHubUser>? = mutableListOf()
         CurrentUser.friends!!.forEach { it ->
             FirebaseDatabase.getInstance().getReference("/users/$it")
                 .addListenerForSingleValueEvent(object : ValueEventListener {
                     override fun onDataChange(snapshot: DataSnapshot) {
                         adapter.clear()
-                        list!!.add(snapshot.getValue(CookhubUser::class.java)!!)
+                        list!!.add(snapshot.getValue(CookHubUser::class.java)!!)
                         list.sortBy { it.username }
                         list.forEach { adapter.add(NewConversationItem(it)) }
                     }
@@ -79,7 +74,7 @@ class NewConversationFragment : Fragment() {
         )
     }
 
-    inner class NewConversationItem(private val user: CookhubUser) : Item<GroupieViewHolder>() {
+    inner class NewConversationItem(private val user: CookHubUser) : Item<GroupieViewHolder>() {
         override fun bind(viewHolder: GroupieViewHolder, position: Int) {
             viewHolder.itemView.textViewFriendRow.text = user.username
             Picasso.get().load(user.profileImageUrl).into(viewHolder.itemView.imageViewFriendRow)

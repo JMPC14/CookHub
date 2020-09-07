@@ -1,7 +1,6 @@
 package com.tm470.cookhub.navdrawerfragments
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -9,17 +8,14 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.database.*
 import com.tm470.cookhub.CurrentUser
-import com.tm470.cookhub.EditRecipeFragment
 import com.tm470.cookhub.R
 import com.tm470.cookhub.ViewRecipeFragment
-import com.tm470.cookhub.models.CookhubUser
-import com.tm470.cookhub.models.Ingredient
+import com.tm470.cookhub.models.CookHubUser
 import com.tm470.cookhub.models.Recipe
 import com.xwray.groupie.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.fragment_public_recipes.*
 import kotlinx.android.synthetic.main.recipe_row.view.*
-import kotlinx.android.synthetic.main.recipe_row_child.view.*
 
 class PublicRecipesFragment : Fragment() {
 
@@ -49,9 +45,9 @@ class PublicRecipesFragment : Fragment() {
         val ref = FirebaseDatabase.getInstance().getReference("/users/")
         ref.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                val usersList: MutableList<CookhubUser> = mutableListOf()
+                val usersList: MutableList<CookHubUser> = mutableListOf()
                 snapshot.children.forEach {
-                    usersList.add(it.getValue(CookhubUser::class.java)!!)
+                    usersList.add(it.getValue(CookHubUser::class.java)!!)
                 }
                 usersList.forEach {
                     val recipesRef = FirebaseDatabase.getInstance().getReference("/users/${it.uid}/recipes")

@@ -23,7 +23,7 @@ import com.google.firebase.database.*
 import com.squareup.picasso.Picasso
 import com.tm470.cookhub.launcher.LauncherActivity
 import com.tm470.cookhub.models.ChatMessage
-import com.tm470.cookhub.models.CookhubUser
+import com.tm470.cookhub.models.CookHubUser
 import com.tm470.cookhub.models.Ingredient
 import com.tm470.cookhub.models.Recipe
 import com.tm470.cookhub.navdrawerfragments.*
@@ -145,7 +145,7 @@ class LandingActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
             val ref = FirebaseDatabase.getInstance().getReference("/users/$chatOtherUserId")
             ref.addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
-                    val chatOtherUser = snapshot.getValue(CookhubUser::class.java)
+                    val chatOtherUser = snapshot.getValue(CookHubUser::class.java)
                     viewHolder.itemView.usernameLatestMessageRow.text = chatOtherUser!!.username
                     Picasso.get().load(chatOtherUser.profileImageUrl)
                         .into(viewHolder.itemView.userImageLatestMessageRow)
@@ -191,7 +191,7 @@ class LandingActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
                     }
 
                     override fun onDataChange(snapshot: DataSnapshot) {
-                        CurrentUser.user = snapshot.getValue(CookhubUser::class.java)
+                        CurrentUser.user = snapshot.getValue(CookHubUser::class.java)
                         textViewNavHeaderMain.text = CurrentUser.user!!.username
                         fetchRecipes()
                         fetchIngredients()

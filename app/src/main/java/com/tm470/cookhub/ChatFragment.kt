@@ -18,7 +18,7 @@ import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
 import com.squareup.picasso.Picasso
 import com.tm470.cookhub.models.ChatMessage
-import com.tm470.cookhub.models.CookhubUser
+import com.tm470.cookhub.models.CookHubUser
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Item
@@ -202,7 +202,7 @@ class ChatFragment : Fragment() {
                 val chatMessage = snapshot.getValue(ChatMessage::class.java)
                 if (chatMessage != null) {
 
-                    val user: CookhubUser?
+                    val user: CookHubUser?
 
                     if (chatMessage.fromId == FirebaseAuth.getInstance().uid) {
                         user = CurrentUser.user
@@ -248,7 +248,7 @@ class ChatFragment : Fragment() {
     inner class ChatItem(
         val id: String,
         val chatMessage: ChatMessage,
-        val user: CookhubUser
+        val user: CookHubUser
     ) : Item<GroupieViewHolder>() {
 
         override fun getLayout(): Int {
@@ -275,7 +275,7 @@ class ChatFragment : Fragment() {
         }
     }
 
-    inner class ChatItemImage(val id: String, val chatMessage: ChatMessage, val user: CookhubUser) : Item<GroupieViewHolder>() {
+    inner class ChatItemImage(val id: String, val chatMessage: ChatMessage, val user: CookHubUser) : Item<GroupieViewHolder>() {
 
         override fun getLayout(): Int {
             return if (user.uid == CurrentUser.user!!.uid) {

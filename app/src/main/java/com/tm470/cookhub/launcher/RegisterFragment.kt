@@ -23,8 +23,7 @@ import com.google.firebase.storage.FirebaseStorage
 import com.tm470.cookhub.CurrentUser
 import com.tm470.cookhub.LandingActivity
 import com.tm470.cookhub.R
-import com.tm470.cookhub.models.CookhubUser
-import kotlinx.android.synthetic.main.fragment_friends.*
+import com.tm470.cookhub.models.CookHubUser
 import kotlinx.android.synthetic.main.fragment_register.*
 import java.util.*
 
@@ -64,7 +63,7 @@ class RegisterFragment : Fragment() {
         val password = editTextPasswordRegister.text.toString()
         val passwordConfirm = editTextPasswordConfirmRegister.text.toString()
 
-        val userList: MutableList<CookhubUser> = mutableListOf()
+        val userList: MutableList<CookHubUser> = mutableListOf()
         val usersRef = FirebaseDatabase.getInstance().getReference("/users")
         usersRef.addListenerForSingleValueEvent(object: ValueEventListener {
             override fun onCancelled(error: DatabaseError) {
@@ -72,7 +71,7 @@ class RegisterFragment : Fragment() {
 
             override fun onDataChange(snapshot: DataSnapshot) {
                 snapshot.children.forEach {
-                    val user: CookhubUser? = it.getValue(CookhubUser::class.java)
+                    val user: CookHubUser? = it.getValue(CookHubUser::class.java)
                     userList.add(user!!)
                 }
             }
@@ -121,7 +120,7 @@ class RegisterFragment : Fragment() {
                     val uid = FirebaseAuth.getInstance().uid
                     val ref = FirebaseDatabase.getInstance().getReference("/users/$uid")
                     val friendsRef = FirebaseDatabase.getInstance().getReference("/users/$uid/friends")
-                    val user = CookhubUser(
+                    val user = CookHubUser(
                         uid,
                         username,
                         email,

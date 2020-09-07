@@ -17,7 +17,7 @@ import com.squareup.picasso.Picasso
 import com.tm470.cookhub.CurrentUser
 import com.tm470.cookhub.NewFriendFragment
 import com.tm470.cookhub.R
-import com.tm470.cookhub.models.CookhubUser
+import com.tm470.cookhub.models.CookHubUser
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Item
@@ -51,13 +51,13 @@ class FriendsFragment : Fragment() {
 
     fun displayFriends() {
         val adapter = GroupAdapter<GroupieViewHolder>()
-        val list: MutableList<CookhubUser>? = mutableListOf()
+        val list: MutableList<CookHubUser>? = mutableListOf()
         CurrentUser.friends!!.forEach { it ->
             FirebaseDatabase.getInstance().getReference("/users/$it")
                 .addListenerForSingleValueEvent(object : ValueEventListener {
                     override fun onDataChange(snapshot: DataSnapshot) {
                         adapter.clear()
-                        list!!.add(snapshot.getValue(CookhubUser::class.java)!!)
+                        list!!.add(snapshot.getValue(CookHubUser::class.java)!!)
                         list.sortBy { it.username }
                         list.forEach { adapter.add(FriendItem(it)) }
                     }
@@ -77,7 +77,7 @@ class FriendsFragment : Fragment() {
         )
     }
 
-    inner class FriendItem(private val friend: CookhubUser): Item<GroupieViewHolder>() {
+    inner class FriendItem(private val friend: CookHubUser): Item<GroupieViewHolder>() {
         override fun bind(viewHolder: GroupieViewHolder, position: Int) {
             viewHolder.itemView.textViewFriendRow.text = friend.username
             if (friend.profileImageUrl!!.isNotEmpty()) {

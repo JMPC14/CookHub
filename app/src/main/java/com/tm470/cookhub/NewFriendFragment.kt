@@ -7,19 +7,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.firebase.ui.auth.data.model.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.squareup.picasso.Picasso
-import com.tm470.cookhub.models.CookhubUser
+import com.tm470.cookhub.models.CookHubUser
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Item
 import kotlinx.android.synthetic.main.app_bar_main.*
-import kotlinx.android.synthetic.main.fragment_friends.*
 import kotlinx.android.synthetic.main.fragment_new_friend.*
 import kotlinx.android.synthetic.main.friend_row.view.*
 
@@ -48,7 +46,7 @@ class NewFriendFragment : Fragment() {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     adapter.clear()
                     snapshot.children.forEach {
-                        val user = it.getValue(CookhubUser::class.java)
+                        val user = it.getValue(CookHubUser::class.java)
                         if (!CurrentUser.friends!!.contains(user!!.uid) && FirebaseAuth.getInstance().uid != user.uid) {
                             adapter.add(NewFriendItem(user))
                         }
@@ -86,7 +84,7 @@ class NewFriendFragment : Fragment() {
         recyclerViewNewFriend.layoutManager = LinearLayoutManager(context)
     }
 
-    class NewFriendItem(val friend: CookhubUser): Item<GroupieViewHolder>() {
+    class NewFriendItem(val friend: CookHubUser): Item<GroupieViewHolder>() {
         override fun bind(viewHolder: GroupieViewHolder, position: Int) {
             viewHolder.itemView.textViewFriendRow.text = friend.username
             Picasso.get().load(friend.profileImageUrl).into(viewHolder.itemView.imageViewFriendRow)

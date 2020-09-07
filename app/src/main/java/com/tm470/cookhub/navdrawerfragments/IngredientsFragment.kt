@@ -35,7 +35,7 @@ class IngredientsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        requireActivity().toolbar.title = "Ingredients"
+        requireActivity().toolbar.title = "My Ingredients"
 
         adapter.clear()
 
