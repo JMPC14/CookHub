@@ -151,9 +151,11 @@ class PublicRecipesFragment : Fragment() {
                     if (compareUnits(it.quantity!!, ingredient.quantity!!)) {
                         viewHolder.root.imageViewCheckMarkGreen.visibility = View.VISIBLE
                         viewHolder.root.imageViewCheckMarkOrange.visibility = View.GONE
+                        return
                     } else {
                         viewHolder.root.imageViewCheckMarkOrange.visibility = View.VISIBLE
                         viewHolder.root.imageViewCheckMarkGreen.visibility = View.GONE
+                        return
                     }
                 } else {
                     viewHolder.root.imageViewCheckMarkOrange.visibility = View.GONE
