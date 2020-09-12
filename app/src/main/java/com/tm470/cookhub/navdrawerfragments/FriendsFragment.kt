@@ -52,7 +52,7 @@ class FriendsFragment : Fragment() {
     fun displayFriends() {
         val adapter = GroupAdapter<GroupieViewHolder>()
         val list: MutableList<CookHubUser>? = mutableListOf()
-        CurrentUser.friends!!.forEach { it ->
+        CurrentUser.friends!!.forEach {
             FirebaseDatabase.getInstance().getReference("/users/$it")
                 .addListenerForSingleValueEvent(object : ValueEventListener {
                     override fun onDataChange(snapshot: DataSnapshot) {
