@@ -98,6 +98,7 @@ class IngredientsFragment : Fragment() {
 
             viewHolder.itemView.imageViewDeleteIngredient.setOnClickListener {
                 adapter.remove(this)
+                buttonSaveIngredients.performClick()
             }
         }
 
