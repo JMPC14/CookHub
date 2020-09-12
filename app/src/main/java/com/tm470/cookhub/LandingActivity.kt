@@ -283,8 +283,8 @@ class LandingActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
                 FirebaseDatabase.getInstance().getReference("/online-users/${CurrentUser.user!!.uid}").setValue(false)
 
                 CurrentUser.user = null
-                CurrentUser.recipes = null
-                CurrentUser.ingredients = null
+                CurrentUser.recipes = mutableListOf()
+                CurrentUser.ingredients = mutableListOf()
                 CurrentUser.cid = null
                 CurrentUser.friends = null
                 CurrentUser.currentChatUser = null
