@@ -193,6 +193,7 @@ class LandingActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
                     override fun onDataChange(snapshot: DataSnapshot) {
                         CurrentUser.user = snapshot.getValue(CookHubUser::class.java)
                         textViewNavHeaderMain.text = CurrentUser.user!!.username
+                        Picasso.get().load(CurrentUser.user!!.profileImageUrl).into(imageViewNavHeader)
                         fetchRecipes()
                         fetchIngredients()
                         fetchFriends()
