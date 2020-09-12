@@ -6,8 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.EditText
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.database.*
@@ -21,7 +19,6 @@ import com.tm470.cookhub.models.Recipe
 import com.xwray.groupie.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.fragment_public_recipes.*
-import kotlinx.android.synthetic.main.layout_dialog.*
 import kotlinx.android.synthetic.main.recipe_row.view.*
 import kotlinx.android.synthetic.main.recipe_row_child.view.*
 
@@ -52,7 +49,6 @@ class PublicRecipesFragment : Fragment() {
             }
             newDialog.setCancelable(false)
             newDialog.show()
-            true
         }
 
         adapter.clear()

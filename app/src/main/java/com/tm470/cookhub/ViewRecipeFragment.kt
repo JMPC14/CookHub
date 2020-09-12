@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.firebase.database.FirebaseDatabase
 import com.tm470.cookhub.models.Ingredient
 import com.tm470.cookhub.models.Recipe
 import com.xwray.groupie.GroupAdapter

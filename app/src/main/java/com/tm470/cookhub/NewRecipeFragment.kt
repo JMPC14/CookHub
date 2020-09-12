@@ -6,8 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import android.widget.PopupMenu
-import androidx.core.view.forEach
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.database.FirebaseDatabase
 import com.tm470.cookhub.models.Ingredient
@@ -19,8 +17,6 @@ import com.xwray.groupie.Item
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.fragment_new_recipe.*
 import kotlinx.android.synthetic.main.new_recipe_ingredient_item.view.*
-import java.util.*
-
 
 class NewRecipeFragment : Fragment() {
 
