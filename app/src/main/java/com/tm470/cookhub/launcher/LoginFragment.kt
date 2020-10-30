@@ -47,5 +47,10 @@ class LoginFragment : Fragment() {
                     editTextPasswordLogin.text.clear()
                 }
         }
+
+        backButtonLogin.setOnClickListener {
+            val a = requireActivity() as LauncherActivity
+            a.onBackPressed()
+        }
     }
 }

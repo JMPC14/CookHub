@@ -7,30 +7,60 @@
     android:background="@drawable/rounded_background_fragment"
     tools:context=".launcher.LoginFragment" >
 
-    <EditText
-        android:id="@+id/editTextEmailLogin"
+    <TextView
+        android:id="@+id/textViewTitle2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="200dp"
+        android:layout_marginTop="100dp"
+        android:background="@drawable/rounded_title"
+        android:text="@string/cookhub"
+        android:textColor="#FFFFFF"
+        android:textSize="50sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/backButtonLogin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#00FFFFFF"
+        android:drawableStart="@drawable/ic_baseline_chevron_left_24"
+        android:gravity="center"
+        android:minWidth="0dp"
+        android:minHeight="0dp"
+        android:text="@string/back"
+        android:textAllCaps="false"
+        android:textColor="#FFFFFF"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/editTextEmailLogin"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="64dp"
+        android:layout_marginEnd="32dp"
         android:background="@drawable/rounded_text_register_login"
         android:ems="10"
         android:hint="@string/email_address"
         android:inputType="textEmailAddress"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewTitle2" />
 
     <EditText
         android:id="@+id/editTextPasswordLogin"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:background="@drawable/rounded_text_register_login"
         android:ems="10"
         android:hint="@string/password"
         android:inputType="textPassword"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/editTextEmailLogin"
+        app:layout_constraintStart_toStartOf="@+id/editTextEmailLogin"
         app:layout_constraintTop_toBottomOf="@+id/editTextEmailLogin" />
 
     <Button

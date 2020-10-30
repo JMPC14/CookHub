@@ -24,6 +24,7 @@ import com.tm470.cookhub.CurrentUser
 import com.tm470.cookhub.LandingActivity
 import com.tm470.cookhub.R
 import com.tm470.cookhub.models.CookHubUser
+import kotlinx.android.synthetic.main.fragment_login.*
 import kotlinx.android.synthetic.main.fragment_register.*
 import java.util.*
 
@@ -53,6 +54,11 @@ class RegisterFragment : Fragment() {
             val intent = Intent(Intent.ACTION_PICK)
             intent.type = "image/*"
             startActivityForResult(intent, 0)
+        }
+
+        backButtonRegister.setOnClickListener {
+            val a = requireActivity() as LauncherActivity
+            a.onBackPressed()
         }
     }
 

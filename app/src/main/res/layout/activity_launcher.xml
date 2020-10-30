@@ -17,9 +17,11 @@
 
         <Button
             android:id="@+id/buttonSubmitLogin"
-            android:layout_width="200dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="64dp"
             android:layout_marginTop="120dp"
+            android:layout_marginEnd="64dp"
             android:background="@drawable/rounded_button_login_register"
             android:text="@string/login"
             android:textAllCaps="false"
@@ -29,7 +31,7 @@
 
         <Button
             android:id="@+id/buttonRegister"
-            android:layout_width="200dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
             android:background="@drawable/rounded_button_login_register"
@@ -49,7 +51,7 @@
         android:background="@drawable/rounded_title"
         android:text="@string/cookhub"
         android:textColor="#FFFFFF"
-        android:textSize="36sp"
+        android:textSize="50sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

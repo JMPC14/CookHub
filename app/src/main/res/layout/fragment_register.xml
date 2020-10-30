@@ -30,9 +30,11 @@
 
     <EditText
         android:id="@+id/editTextUsernameRegister"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
         android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
         android:background="@drawable/rounded_text_register_login"
         android:ems="10"
         android:hint="@string/username"
@@ -43,7 +45,7 @@
 
     <EditText
         android:id="@+id/editTextEmailRegister"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:background="@drawable/rounded_text_register_login"
@@ -56,7 +58,7 @@
 
     <EditText
         android:id="@+id/editTextEmailConfirmRegister"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:background="@drawable/rounded_text_register_login"
@@ -69,7 +71,7 @@
 
     <EditText
         android:id="@+id/editTextPasswordRegister"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:background="@drawable/rounded_text_register_login"
@@ -82,7 +84,7 @@
 
     <EditText
         android:id="@+id/editTextPasswordConfirmRegister"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:background="@drawable/rounded_text_register_login"
@@ -105,5 +107,20 @@
         app:layout_constraintEnd_toEndOf="@+id/editTextPasswordConfirmRegister"
         app:layout_constraintStart_toStartOf="@+id/editTextPasswordConfirmRegister"
         app:layout_constraintTop_toBottomOf="@+id/editTextPasswordConfirmRegister" />
+
+    <Button
+        android:id="@+id/backButtonRegister"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#00FFFFFF"
+        android:drawableStart="@drawable/ic_baseline_chevron_left_24"
+        android:minWidth="0dp"
+        android:minHeight="0dp"
+        android:text="@string/back"
+        android:textAllCaps="false"
+        android:textColor="#FFFFFF"
+        android:gravity="center"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

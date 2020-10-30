@@ -15,9 +15,6 @@ class LauncherActivity : AppCompatActivity() {
         val registerFragment = supportFragmentManager.findFragmentById(R.id.register_fragment)!!
         val loginFragment = supportFragmentManager.findFragmentById(R.id.login_fragment)!!
 
-        hideFragment(this, registerFragment)
-        hideFragment(this, loginFragment)
-
         supportActionBar?.hide()
 
         buttonSubmitLogin.setOnClickListener {
