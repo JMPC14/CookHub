@@ -11,6 +11,7 @@ import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.tm470.cookhub.LandingActivity
 import com.tm470.cookhub.R
+import com.tm470.cookhub.hideFragment
 import kotlinx.android.synthetic.main.fragment_login.*
 
 class LoginFragment : Fragment() {
@@ -23,6 +24,7 @@ class LoginFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        hideFragment(requireActivity(), this)
         buttonSubmitLogin.setOnClickListener {
             val email = editTextEmailLogin.text.toString()
             val password = editTextPasswordLogin.text.toString()

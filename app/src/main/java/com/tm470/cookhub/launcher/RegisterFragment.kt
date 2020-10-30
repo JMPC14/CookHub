@@ -23,6 +23,7 @@ import com.google.firebase.storage.FirebaseStorage
 import com.tm470.cookhub.CurrentUser
 import com.tm470.cookhub.LandingActivity
 import com.tm470.cookhub.R
+import com.tm470.cookhub.hideFragment
 import com.tm470.cookhub.models.CookHubUser
 import kotlinx.android.synthetic.main.fragment_login.*
 import kotlinx.android.synthetic.main.fragment_register.*
@@ -42,6 +43,7 @@ class RegisterFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        hideFragment(requireActivity(), this)
         buttonSubmitRegister.setOnClickListener {
             if (selectedPhotoUri != null) {
                 uploadImageToFirebase()
